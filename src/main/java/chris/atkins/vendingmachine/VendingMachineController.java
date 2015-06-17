@@ -35,5 +35,6 @@ public class VendingMachineController {
 	public void insertCoin(final int sizeInMM, final int weightInMg) {
 		final Coin coin = this.coinIdentifier.identify(sizeInMM, weightInMg);
 		this.userBank.add(coin.value());
+		this.display.update(String.format("BALANCE: $%1.2f", this.userBank.currentBalance()));
 	}
 }

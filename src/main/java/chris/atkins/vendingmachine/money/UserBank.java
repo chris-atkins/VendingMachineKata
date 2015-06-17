@@ -8,6 +8,10 @@ public class UserBank {
 		this.currentAmount += amount;
 	}
 
+	public void pay(final double amountToPay) {
+		this.currentAmount -= amountToPay;
+	}
+
 	public double currentBalance() {
 		return round(this.currentAmount);
 
@@ -15,9 +19,5 @@ public class UserBank {
 
 	private double round(final double a) {
 		return (int) ((this.currentAmount + .00500001) * 100) / 100d;
-	}
-
-	public void pay(final double amountToPay) {
-		this.currentAmount -= amountToPay;
 	}
 }

@@ -11,7 +11,6 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -51,6 +50,7 @@ public class VendingMachineControllerTest {
 
 		@Test
 		public void doesNotDispenseColaIfNotEnoughMoneyExists() throws Exception {
+			this.vendingMachine.userBank.add(0.99);
 			this.vendingMachine.colaSelected();
 			verifyZeroInteractions(this.dispensor);
 		}
@@ -69,10 +69,14 @@ public class VendingMachineControllerTest {
 		}
 	}
 
-	@RunWith(JUnit4.class)
+	@RunWith(MockitoJUnitRunner.class)
 	public static class VendingMachineCoinInsertedTest {
 
-		private final VendingMachineController vendingMachine = new VendingMachineController(null, null);
+		@InjectMocks
+		private VendingMachineController vendingMachine;
+
+		@Mock
+		private Display display;
 
 		@Test
 		public void quarterInserted() throws Exception {
@@ -90,6 +94,12 @@ public class VendingMachineControllerTest {
 		public void nickelInserted() throws Exception {
 			this.vendingMachine.insertCoin(NICKEL.sizeInMM(), NICKEL.weightInMg());
 			assertThat(this.vendingMachine.userBank.currentBalance(), equalTo(0.05));
+		}
+
+		@Test
+		public void displayUpdatedToShowBalance() throws Exception {
+			this.vendingMachine.insertCoin(QUARTER.sizeInMM(), QUARTER.weightInMg());
+			verify(this.display).update("BALANCE: $0.25");
 		}
 	}
 
