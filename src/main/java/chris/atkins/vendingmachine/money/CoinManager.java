@@ -10,10 +10,11 @@ public class CoinManager {
 	private final CoinReturn coinReturn;
 	private final CoinTypeIdentifier coinIdentifier;
 
-	public CoinManager(final UserBalance userBalance, final CoinReturn coinReturn) {
+	public CoinManager(final UserBalance userBalance, final CoinReturn coinReturn, final int startingQuarterInventory,
+			final int startingDimeInventory, final int startingNickelInventory) {
 		this.userBalance = userBalance;
 		this.coinReturn = coinReturn;
-		this.coinBank = new CoinBank();
+		this.coinBank = new CoinBank(startingQuarterInventory, startingDimeInventory, startingNickelInventory);
 		this.coinIdentifier = new CoinTypeIdentifier();
 	}
 
@@ -30,6 +31,7 @@ public class CoinManager {
 			return;
 		}
 
+		this.coinBank.add(coin);
 		this.userBalance.add(coin.value());
 	}
 
@@ -44,5 +46,9 @@ public class CoinManager {
 
 	public double currentUserBalance() {
 		return this.userBalance.currentBalance();
+	}
+
+	public boolean doesNotHaveChange() {
+		return this.coinBank.numberOf(Coin.NICKEL) < 1 || this.coinBank.numberOf(Coin.DIME) < 2;
 	}
 }

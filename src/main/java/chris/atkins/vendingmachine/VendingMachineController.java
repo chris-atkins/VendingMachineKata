@@ -1,5 +1,11 @@
 package chris.atkins.vendingmachine;
 
+import static chris.atkins.vendingmachine.StartingInventory.STARTING_CANDY_INVENTORY;
+import static chris.atkins.vendingmachine.StartingInventory.STARTING_CHIPS_INVENTORY;
+import static chris.atkins.vendingmachine.StartingInventory.STARTING_COLA_INVENTORY;
+import static chris.atkins.vendingmachine.StartingInventory.STARTING_DIME_INVENTORY;
+import static chris.atkins.vendingmachine.StartingInventory.STARTING_NICKEL_INVENTORY;
+import static chris.atkins.vendingmachine.StartingInventory.STARTING_QUARTER_INVENTORY;
 import static chris.atkins.vendingmachine.items.Item.CANDY;
 import static chris.atkins.vendingmachine.items.Item.CHIPS;
 import static chris.atkins.vendingmachine.items.Item.COLA;
@@ -16,10 +22,6 @@ import chris.atkins.vendingmachine.money.UserBalance;
 
 public class VendingMachineController {
 
-	private static final int STARTING_COLA_INVENTORY = 2;
-	private static final int STARTING_CANDY_INVENTORY = 2;
-	private static final int STARTING_CHIPS_INVENTORY = 2;
-
 	private final ItemDispensor itemDispensor;
 	private final DisplayManager display;
 	final UserBalance userBalance;
@@ -31,7 +33,8 @@ public class VendingMachineController {
 		this.userBalance = new UserBalance();
 		this.display = new DisplayManager(display);
 		this.inventory = new ItemManager(STARTING_COLA_INVENTORY, STARTING_CANDY_INVENTORY, STARTING_CHIPS_INVENTORY);
-		this.moneyHandler = new CoinManager(this.userBalance, coinReturn);
+		this.moneyHandler = new CoinManager(this.userBalance, coinReturn, STARTING_QUARTER_INVENTORY, STARTING_DIME_INVENTORY,
+				STARTING_NICKEL_INVENTORY);
 		initializeDisplay();
 	}
 
@@ -78,6 +81,10 @@ public class VendingMachineController {
 	}
 
 	public void displayBalance() {
-		this.display.updateBalanceStatus(this.moneyHandler.currentUserBalance());
+		if (this.moneyHandler.doesNotHaveChange() && this.moneyHandler.currentUserBalance() == 0.0) {
+			this.display.updateExactChangeRequired();
+		} else {
+			this.display.updateBalanceStatus(this.moneyHandler.currentUserBalance());
+		}
 	}
 }

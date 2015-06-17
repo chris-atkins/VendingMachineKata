@@ -8,7 +8,7 @@ import static chris.atkins.vendingmachine.money.Coin.NICKEL;
 import static chris.atkins.vendingmachine.money.Coin.QUARTER;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
@@ -17,7 +17,6 @@ import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import chris.atkins.vendingmachine.display.Display;
@@ -41,7 +40,7 @@ public class VendingMachineControllerTest {
 		private Display display;
 
 		@Test
-		public void insertCoinsDisplayedOnInitialization() throws Exception {
+		public void insertCoinDisplayedOnInitialization() throws Exception {
 			verify(this.display).update("INSERT COIN");
 		}
 	}
@@ -55,20 +54,30 @@ public class VendingMachineControllerTest {
 		@Mock
 		private Display display;
 
+		@Mock
+		CoinReturn coinReturn;
+
 		@Test
-		public void insertCoinsDisplayedWhenNoBalanceExists() throws Exception {
+		public void insertCoinsDisplayedWhenNoBalanceExistsWithEnoughChange() throws Exception {
 			this.vendingMachine.userBalance.reset();
 			this.vendingMachine.displayBalance();
-			verify(this.display, Mockito.atLeastOnce()).update("INSERT COIN");
+			verify(this.display, atLeastOnce()).update("INSERT COIN");
 		}
 
 		@Test
 		public void balanceDisplayedWhenBalanceExists() throws Exception {
 			this.vendingMachine.userBalance.add(1.25);
 			this.vendingMachine.displayBalance();
-			verify(this.display, Mockito.atLeastOnce()).update("BALANCE: $1.25");
+			verify(this.display).update("BALANCE: $1.25");
 		}
 
+		@Test
+		public void displaysCorrectTextWhenExactChangeIsRequired() throws Exception {
+			this.vendingMachine.userBalance.add(80);
+			this.vendingMachine.returnCoinBalance();
+			this.vendingMachine.displayBalance();
+			verify(this.display, atLeastOnce()).update("EXACT CHANGE ONLY");
+		}
 	}
 
 	@RunWith(MockitoJUnitRunner.class)
@@ -394,10 +403,10 @@ public class VendingMachineControllerTest {
 		}
 
 		@Test
-		public void returnCoinsDisplaysInsertCoinWhenFinished() throws Exception {
+		public void returnCoinsDisplaysStatusMessageWhenFinished() throws Exception {
 			this.vendingMachine.userBalance.add(0.4);
 			this.vendingMachine.returnCoinBalance();
-			verify(this.display, times(2)).update("INSERT COIN");  // once for initialization, once for balance return
+			verify(this.display, atLeastOnce()).update("EXACT CHANGE ONLY");
 		}
 	}
 }
