@@ -15,7 +15,7 @@ public class CoinAcceptor {
 				return coin;
 			}
 		}
-		return null;
+		return Coin.INVALID_COIN;
 	}
 
 }

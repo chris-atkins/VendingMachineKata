@@ -30,4 +30,9 @@ public class CoinAcceptorTest {
 	public void acceptsNickels() throws Exception {
 		assertThat(this.coinAcceptor.determineCoinType(NICKEL.sizeInMM(), NICKEL.weightInMg()), equalTo(NICKEL));
 	}
+
+	@Test
+	public void unknownCoins() throws Exception {
+		assertThat(this.coinAcceptor.determineCoinType(42, 23), equalTo(Coin.INVALID_COIN));
+	}
 }
