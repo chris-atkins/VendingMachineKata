@@ -29,5 +29,4 @@ public class ProductInventory {
 	public void setInventory(final Item item, final int count) {
 		this.inventory.put(item, count);
 	}
-
 }
