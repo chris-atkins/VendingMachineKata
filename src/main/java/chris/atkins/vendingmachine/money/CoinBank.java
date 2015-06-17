@@ -7,16 +7,16 @@ import chris.atkins.vendingmachine.CoinReturn;
 
 public class CoinBank {
 
-	public void returnChange(final double currentBalance, final CoinReturn coinReturn) {
-		double tempBalance = currentBalance;
-		while (tempBalance >= DIME.value()) {
+	public void returnChange(final double changeToMake, final CoinReturn coinReturn) {
+		double changeLeftToReturn = changeToMake;
+		while (changeLeftToReturn >= DIME.value()) {
 			coinReturn.returnCoin(DIME);
-			tempBalance -= DIME.value();
+			changeLeftToReturn -= DIME.value();
 		}
 
-		while (tempBalance >= NICKEL.value()) {
+		while (changeLeftToReturn >= NICKEL.value()) {
 			coinReturn.returnCoin(NICKEL);
-			tempBalance -= NICKEL.value();
+			changeLeftToReturn -= NICKEL.value();
 		}
 	}
 }
