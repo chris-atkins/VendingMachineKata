@@ -5,14 +5,14 @@ import chris.atkins.vendingmachine.display.Display;
 import chris.atkins.vendingmachine.money.Coin;
 import chris.atkins.vendingmachine.money.CoinBank;
 import chris.atkins.vendingmachine.money.CoinTypeIdentifier;
-import chris.atkins.vendingmachine.money.UserBank;
+import chris.atkins.vendingmachine.money.UserBalance;
 
 
 public class VendingMachineController {
 
 	private final ProductDispensor productDispensor;
 	private final Display display;
-	final UserBank userBank;
+	final UserBalance userBank;
 	private final CoinTypeIdentifier coinIdentifier;
 	private final CoinReturn coinReturn;
 	private final CoinBank coinBank;
@@ -21,7 +21,7 @@ public class VendingMachineController {
 		this.productDispensor = productDispensor;
 		this.display = display;
 		this.coinReturn = coinReturn;
-		this.userBank = new UserBank();
+		this.userBank = new UserBalance();
 		this.coinIdentifier = new CoinTypeIdentifier();
 		this.coinBank = new CoinBank();
 	}

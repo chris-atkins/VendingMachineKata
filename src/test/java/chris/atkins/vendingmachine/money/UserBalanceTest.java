@@ -9,9 +9,9 @@ import org.junit.runners.JUnit4;
 
 
 @RunWith(JUnit4.class)
-public class UserBankTest {
+public class UserBalanceTest {
 
-	private final UserBank bank = new UserBank();
+	private final UserBalance bank = new UserBalance();
 
 	@Test
 	public void startsWithZeroBalance() throws Exception {
