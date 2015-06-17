@@ -119,6 +119,57 @@ public class VendingMachineControllerTest {
 	}
 
 	@RunWith(MockitoJUnitRunner.class)
+	public static class VendingMachineCandySelectedTest {
+
+		@InjectMocks
+		private VendingMachineController vendingMachine;
+
+		@Mock
+		private ProductDispensor dispensor;
+
+		@Mock
+		private Display display;
+
+		@Mock
+		private CoinReturn coinReturn;
+
+		@Test
+		public void whenCandyIsSelectedItIsDispensedWithExactChange() throws Exception {
+			this.vendingMachine.userBalance.add(0.65);
+			this.vendingMachine.candySelected();
+			verify(this.dispensor).dispenseItem(Item.CANDY);
+		}
+
+		@Test
+		public void whenCandyIsDispensedTheDisplayReadsThankYou() throws Exception {
+			this.vendingMachine.userBalance.add(0.65);
+			this.vendingMachine.candySelected();
+			verify(this.display).update("THANK YOU");
+		}
+
+		@Test
+		public void doesNotDispenseCandyIfNotEnoughMoneyExists() throws Exception {
+			this.vendingMachine.userBalance.add(0.64);
+			this.vendingMachine.candySelected();
+			verifyZeroInteractions(this.dispensor);
+		}
+
+		@Test
+		public void displaysPriceOfCandyIfCandyIsSelectedWithNotEnoughMoney() throws Exception {
+			this.vendingMachine.userBalance.reset();
+			this.vendingMachine.candySelected();
+			verify(this.display).update("PRICE $0.65");
+		}
+
+		@Test
+		public void userPaysForCandyFromUserBalance() throws Exception {
+			this.vendingMachine.userBalance.add(0.65);
+			this.vendingMachine.candySelected();
+			assertThat(this.vendingMachine.userBalance.currentBalance(), equalTo(0.0));
+		}
+	}
+
+	@RunWith(MockitoJUnitRunner.class)
 	public static class VendingMachineCoinInsertedTest {
 
 		@InjectMocks

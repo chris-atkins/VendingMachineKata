@@ -1,5 +1,6 @@
 package chris.atkins.vendingmachine;
 
+import static chris.atkins.vendingmachine.items.Item.CANDY;
 import static chris.atkins.vendingmachine.items.Item.COLA;
 import chris.atkins.vendingmachine.display.Display;
 import chris.atkins.vendingmachine.display.DisplayManager;
@@ -41,6 +42,19 @@ public class VendingMachineController {
 
 		this.productDispensor.dispenseItem(COLA);
 		this.userBalance.pay(1.0);
+		this.coinBank.returnChange(this.userBalance.currentBalance(), this.coinReturn);
+		this.userBalance.reset();
+		this.display.thanksForThePurchase();
+	}
+
+	public void candySelected() {
+		if (this.userBalance.currentBalance() < 0.65) {
+			this.display.notifyPrice(0.65);
+			return;
+		}
+
+		this.productDispensor.dispenseItem(CANDY);
+		this.userBalance.pay(0.65);
 		this.coinBank.returnChange(this.userBalance.currentBalance(), this.coinReturn);
 		this.userBalance.reset();
 		this.display.thanksForThePurchase();
