@@ -21,12 +21,12 @@ public class CoinTest {
 
 	@Test
 	public void quarterSize() throws Exception {
-		assertThat(QUARTER.sizeInMM(), equalTo(5));
+		assertThat(QUARTER.sizeInMM(), equalTo(24));
 	}
 
 	@Test
 	public void quarterWeight() throws Exception {
-		assertThat(QUARTER.weightInMg(), equalTo(3));
+		assertThat(QUARTER.weightInMg(), equalTo(567));
 	}
 
 	@Test
@@ -36,12 +36,12 @@ public class CoinTest {
 
 	@Test
 	public void dimeSize() throws Exception {
-		assertThat(DIME.sizeInMM(), equalTo(3));
+		assertThat(DIME.sizeInMM(), equalTo(18));
 	}
 
 	@Test
 	public void dimeWeight() throws Exception {
-		assertThat(DIME.weightInMg(), equalTo(1));
+		assertThat(DIME.weightInMg(), equalTo(227));
 	}
 
 	@Test
@@ -51,11 +51,11 @@ public class CoinTest {
 
 	@Test
 	public void nickelSize() throws Exception {
-		assertThat(NICKEL.sizeInMM(), equalTo(4));
+		assertThat(NICKEL.sizeInMM(), equalTo(21));
 	}
 
 	@Test
 	public void nickelWeight() throws Exception {
-		assertThat(NICKEL.weightInMg(), equalTo(3));
+		assertThat(NICKEL.weightInMg(), equalTo(500));
 	}
 }
