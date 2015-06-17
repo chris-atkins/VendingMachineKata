@@ -35,6 +35,7 @@ public class VendingMachineController {
 		this.productDispensor.dispenseItem(COLA);
 		this.userBalance.pay(1.0);
 		this.coinBank.returnChange(this.userBalance.currentBalance(), this.coinReturn);
+		this.userBalance.reset();
 		this.display.update("THANK YOU");
 	}
 

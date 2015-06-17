@@ -20,4 +20,8 @@ public class UserBalance {
 	private double round(final double a) {
 		return (int) ((this.currentAmount + .00500001) * 100) / 100d;
 	}
+
+	public void reset() {
+		this.currentAmount = 0.0;
+	}
 }

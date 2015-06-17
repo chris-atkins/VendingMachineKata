@@ -51,4 +51,11 @@ public class UserBalanceTest {
 		this.balance.add(.995);
 		assertThat(this.balance.currentBalance(), equalTo(1.0));
 	}
+
+	@Test
+	public void resetSetsBalanceToZero() throws Exception {
+		this.balance.add(12.42);
+		this.balance.reset();
+		assertThat(this.balance.currentBalance(), equalTo(0.0));
+	}
 }

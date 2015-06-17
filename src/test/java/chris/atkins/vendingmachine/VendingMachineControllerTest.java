@@ -149,5 +149,28 @@ public class VendingMachineControllerTest {
 			this.vendingMachine.colaSelected();
 			verify(this.coinReturn).returnCoin(DIME);
 		}
+
+		@Test
+		public void returnsQuarterAsChange() throws Exception {
+			this.vendingMachine.userBalance.add(1.25);
+			this.vendingMachine.colaSelected();
+			verify(this.coinReturn).returnCoin(QUARTER);
+		}
+
+		@Test
+		public void returnsMultipleCoinsAsChange() throws Exception {
+			this.vendingMachine.userBalance.add(1.40);
+			this.vendingMachine.colaSelected();
+			verify(this.coinReturn).returnCoin(QUARTER);
+			verify(this.coinReturn).returnCoin(DIME);
+			verify(this.coinReturn).returnCoin(NICKEL);
+		}
+
+		@Test
+		public void userBalanceIsZeroAfterChangeIsGiven() throws Exception {
+			this.vendingMachine.userBalance.add(1.40);
+			this.vendingMachine.colaSelected();
+			assertThat(this.vendingMachine.userBalance.currentBalance(), equalTo(0.0));
+		}
 	}
 }
