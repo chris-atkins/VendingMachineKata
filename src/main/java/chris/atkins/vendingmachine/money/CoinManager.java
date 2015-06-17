@@ -22,7 +22,7 @@ public class CoinManager {
 
 	public void purchaseItemAndReturnChange(final Item item) {
 		this.userBalance.pay(item.price());
-		this.coinBank.returnChange(getCurrentBalance(), this.coinReturn);
+		this.coinBank.returnChange(currentUserBalance(), this.coinReturn);
 		this.userBalance.reset();
 	}
 
@@ -38,20 +38,16 @@ public class CoinManager {
 	}
 
 	public void returnCoins() {
-		this.coinBank.returnChange(getCurrentBalance(), this.coinReturn);
+		this.coinBank.returnChange(currentUserBalance(), this.coinReturn);
 		resetUserBalance();
 	}
 
-	private double getCurrentBalance() {
-		return this.userBalance.currentBalance();
-	}
-
 	public boolean userDoesNotHaveEnoughMoneyToPurchase(final Item item) {
-		return getCurrentBalance() < item.price();
+		return currentUserBalance() < item.price();
 	}
 
 	public double currentUserBalance() {
-		return getCurrentBalance();
+		return this.userBalance.currentBalance();
 	}
 
 	public boolean hasChangeForAQuarter() {

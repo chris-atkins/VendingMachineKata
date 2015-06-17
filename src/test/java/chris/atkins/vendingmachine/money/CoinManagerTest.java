@@ -4,6 +4,7 @@ import static chris.atkins.vendingmachine.money.Coin.INVALID_COIN;
 import static chris.atkins.vendingmachine.money.Coin.QUARTER;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
@@ -111,18 +112,24 @@ public class CoinManagerTest {
 	}
 
 	@Test
-	public void userHasEnoughMoneyIsTrueForExactChange() throws Exception {
-
+	public void userHasEnoughMoneyWithExactChange() throws Exception {
+		setUserBalance(Item.CANDY.price());
+		final boolean result = this.coinManager.userDoesNotHaveEnoughMoneyToPurchase(Item.CANDY);
+		assertThat(result, is(false));
 	}
 
 	@Test
 	public void userHasEnoughMoneyIsTrueForExtraMoney() throws Exception {
-
+		setUserBalance(Item.CHIPS.price() + .01);
+		final boolean result = this.coinManager.userDoesNotHaveEnoughMoneyToPurchase(Item.CHIPS);
+		assertThat(result, is(false));
 	}
 
 	@Test
 	public void userHasEnoughMoneyIsFalseForLessMoney() throws Exception {
-
+		setUserBalance(Item.COLA.price() - .01);
+		final boolean result = this.coinManager.userDoesNotHaveEnoughMoneyToPurchase(Item.COLA);
+		assertThat(result, is(true));
 	}
 
 	private void setupInvalidCoinCase() throws Exception {
@@ -135,6 +142,11 @@ public class CoinManagerTest {
 		injectMockCoinIdentifier();
 		injectMockCoinBank();
 		when(this.coinIdentifier.identify(this.coin)).thenReturn(QUARTER);
+	}
+
+	private void setUserBalance(final double amount) {
+		this.coinManager.resetUserBalance();
+		this.coinManager.addToUserBalance(amount);
 	}
 
 	private void injectMockCoinBank() throws Exception {
