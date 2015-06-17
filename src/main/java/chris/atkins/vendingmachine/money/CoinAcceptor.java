@@ -1,12 +1,18 @@
 package chris.atkins.vendingmachine.money;
 
-import static chris.atkins.vendingmachine.money.Coin.QUARTER;
 
 
 public class CoinAcceptor {
 
+	private static Coin[] validCoins = new Coin[] { Coin.QUARTER, Coin.DIME };
+
 	public Coin determineCoinType(final int sizeInMM, final int weightInMg) {
-		return QUARTER;
+		for (final Coin coin : validCoins) {
+			if (coin.sizeInMM() == sizeInMM && coin.weightInMg() == weightInMg) {
+				return coin;
+			}
+		}
+		return null;
 	}
 
 }

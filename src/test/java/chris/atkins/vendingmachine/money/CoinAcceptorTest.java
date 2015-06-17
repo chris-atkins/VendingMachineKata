@@ -1,5 +1,6 @@
 package chris.atkins.vendingmachine.money;
 
+import static chris.atkins.vendingmachine.money.Coin.DIME;
 import static chris.atkins.vendingmachine.money.Coin.QUARTER;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -17,5 +18,10 @@ public class CoinAcceptorTest {
 	@Test
 	public void acceptsQuarters() throws Exception {
 		assertThat(this.coinAcceptor.determineCoinType(QUARTER.sizeInMM(), QUARTER.weightInMg()), equalTo(QUARTER));
+	}
+
+	@Test
+	public void acceptsDimes() throws Exception {
+		assertThat(this.coinAcceptor.determineCoinType(DIME.sizeInMM(), DIME.weightInMg()), equalTo(DIME));
 	}
 }
