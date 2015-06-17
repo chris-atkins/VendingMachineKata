@@ -11,23 +11,20 @@ import chris.atkins.vendingmachine.items.ItemManager;
 import chris.atkins.vendingmachine.money.CoinManager;
 import chris.atkins.vendingmachine.money.CoinReturn;
 import chris.atkins.vendingmachine.money.InsertedCoin;
-import chris.atkins.vendingmachine.money.UserBalance;
 
 
 public class VendingMachineController {
 
 	private final ItemDispensor itemDispensor;
 	private final DisplayManager display;
-	final UserBalance userBalance;
 	final ItemManager inventory;
-	private final CoinManager moneyHandler;
+	final CoinManager moneyHandler;
 
 	public VendingMachineController(final ItemDispensor itemDispensor, final Display display, final CoinReturn coinReturn) {
 		this.itemDispensor = itemDispensor;
-		this.userBalance = new UserBalance();
 		this.display = new DisplayManager(display);
 		this.inventory = new ItemManager();
-		this.moneyHandler = new CoinManager(this.userBalance, coinReturn);
+		this.moneyHandler = new CoinManager(coinReturn);
 		initializeDisplay();
 	}
 

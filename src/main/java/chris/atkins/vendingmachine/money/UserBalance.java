@@ -14,7 +14,6 @@ public class UserBalance {
 
 	public double currentBalance() {
 		return round(this.currentAmount);
-
 	}
 
 	private double round(final double a) {

@@ -59,21 +59,21 @@ public class VendingMachineControllerTest {
 
 		@Test
 		public void insertCoinsDisplayedWhenNoBalanceExistsWithEnoughChange() throws Exception {
-			this.vendingMachine.userBalance.reset();
+			this.vendingMachine.moneyHandler.resetUserBalance();
 			this.vendingMachine.displayBalance();
 			verify(this.display, atLeastOnce()).update("INSERT COIN");
 		}
 
 		@Test
 		public void balanceDisplayedWhenBalanceExists() throws Exception {
-			this.vendingMachine.userBalance.add(1.25);
+			this.vendingMachine.moneyHandler.addToUserBalance(1.25);
 			this.vendingMachine.displayBalance();
 			verify(this.display).update("BALANCE: $1.25");
 		}
 
 		@Test
 		public void displaysCorrectTextWhenExactChangeIsRequired() throws Exception {
-			this.vendingMachine.userBalance.add(80);
+			addToUserBalance(this.vendingMachine, 80);
 			this.vendingMachine.returnCoinBalance();
 			this.vendingMachine.displayBalance();
 			verify(this.display, atLeastOnce()).update("EXACT CHANGE ONLY");
@@ -97,43 +97,43 @@ public class VendingMachineControllerTest {
 
 		@Test
 		public void whenColaIsSelectedItIsDispensedWithExactChange() throws Exception {
-			this.vendingMachine.userBalance.add(1.00);
+			addToUserBalance(this.vendingMachine, 1.00);
 			this.vendingMachine.colaSelected();
 			verify(this.dispensor).dispenseItem(Item.COLA);
 		}
 
 		@Test
 		public void whenColaIsDispensedTheDisplayReadsThankYou() throws Exception {
-			this.vendingMachine.userBalance.add(1.00);
+			addToUserBalance(this.vendingMachine, 1.00);
 			this.vendingMachine.colaSelected();
 			verify(this.display).update("THANK YOU");
 		}
 
 		@Test
 		public void doesNotDispenseColaIfNotEnoughMoneyExists() throws Exception {
-			this.vendingMachine.userBalance.add(0.99);
+			addToUserBalance(this.vendingMachine, 0.99);
 			this.vendingMachine.colaSelected();
 			verifyZeroInteractions(this.dispensor);
 		}
 
 		@Test
 		public void displaysPriceOfColaIfColaIsSelectedWithNotEnoughMoney() throws Exception {
-			this.vendingMachine.userBalance.reset();
+			resetUserBalance(this.vendingMachine);
 			this.vendingMachine.colaSelected();
 			verify(this.display).update("PRICE $1.00");
 		}
 
 		@Test
 		public void userPaysForColaFromUserBalance() throws Exception {
-			this.vendingMachine.userBalance.add(1.00);
+			addToUserBalance(this.vendingMachine, 1.00);
 			this.vendingMachine.colaSelected();
-			assertThat(this.vendingMachine.userBalance.currentBalance(), equalTo(0.0));
+			assertThat(this.vendingMachine.moneyHandler.currentUserBalance(), equalTo(0.0));
 		}
 
 		@Test
 		public void displaysSoldOutIfNoInventoryExists() throws Exception {
 			purchaseAllTheColas();
-			this.vendingMachine.userBalance.add(1.00);
+			addToUserBalance(this.vendingMachine, 1.00);
 			this.vendingMachine.colaSelected();
 			verify(this.display).update("SOLD OUT");
 		}
@@ -141,7 +141,7 @@ public class VendingMachineControllerTest {
 		@Test
 		public void displaysSoldOutEvenIfUserHasNotEnteredMoney() throws Exception {
 			purchaseAllTheColas();
-			this.vendingMachine.userBalance.reset();
+			resetUserBalance(this.vendingMachine);
 			this.vendingMachine.colaSelected();
 			verify(this.display).update("SOLD OUT");
 		}
@@ -149,7 +149,7 @@ public class VendingMachineControllerTest {
 		@Test
 		public void noItemIsDispensedIfSoldOut() throws Exception {
 			purchaseAllTheColas();
-			this.vendingMachine.userBalance.add(1.00);
+			addToUserBalance(this.vendingMachine, 1.00);
 			this.vendingMachine.colaSelected();
 			verifyZeroInteractions(this.dispensor);
 		}
@@ -157,9 +157,9 @@ public class VendingMachineControllerTest {
 		@Test
 		public void sameBalanceIfSoldOut() throws Exception {
 			purchaseAllTheColas();
-			this.vendingMachine.userBalance.add(1.10);
+			addToUserBalance(this.vendingMachine, 1.10);
 			this.vendingMachine.colaSelected();
-			assertThat(this.vendingMachine.userBalance.currentBalance(), equalTo(1.1));
+			assertThat(this.vendingMachine.moneyHandler.currentUserBalance(), equalTo(1.1));
 		}
 
 		private void purchaseAllTheColas() {
@@ -184,37 +184,37 @@ public class VendingMachineControllerTest {
 
 		@Test
 		public void whenCandyIsSelectedItIsDispensedWithExactChange() throws Exception {
-			this.vendingMachine.userBalance.add(0.65);
+			addToUserBalance(this.vendingMachine, 0.65);
 			this.vendingMachine.candySelected();
 			verify(this.dispensor).dispenseItem(CANDY);
 		}
 
 		@Test
 		public void whenCandyIsDispensedTheDisplayReadsThankYou() throws Exception {
-			this.vendingMachine.userBalance.add(0.65);
+			addToUserBalance(this.vendingMachine, 0.65);
 			this.vendingMachine.candySelected();
 			verify(this.display).update("THANK YOU");
 		}
 
 		@Test
 		public void doesNotDispenseCandyIfNotEnoughMoneyExists() throws Exception {
-			this.vendingMachine.userBalance.add(0.64);
+			addToUserBalance(this.vendingMachine, 0.64);
 			this.vendingMachine.candySelected();
 			verifyZeroInteractions(this.dispensor);
 		}
 
 		@Test
 		public void displaysPriceOfCandyIfCandyIsSelectedWithNotEnoughMoney() throws Exception {
-			this.vendingMachine.userBalance.reset();
+			resetUserBalance(this.vendingMachine);
 			this.vendingMachine.candySelected();
 			verify(this.display).update("PRICE $0.65");
 		}
 
 		@Test
 		public void userPaysForCandyFromUserBalance() throws Exception {
-			this.vendingMachine.userBalance.add(0.65);
+			addToUserBalance(this.vendingMachine, 0.65);
 			this.vendingMachine.candySelected();
-			assertThat(this.vendingMachine.userBalance.currentBalance(), equalTo(0.0));
+			assertThat(this.vendingMachine.moneyHandler.currentUserBalance(), equalTo(0.0));
 		}
 	}
 
@@ -235,37 +235,37 @@ public class VendingMachineControllerTest {
 
 		@Test
 		public void whenChipsIsSelectedItIsDispensedWithExactChange() throws Exception {
-			this.vendingMachine.userBalance.add(0.5);
+			addToUserBalance(this.vendingMachine, 0.5);
 			this.vendingMachine.chipsSelected();
 			verify(this.dispensor).dispenseItem(CHIPS);
 		}
 
 		@Test
 		public void whenChipsIsDispensedTheDisplayReadsThankYou() throws Exception {
-			this.vendingMachine.userBalance.add(0.5);
+			addToUserBalance(this.vendingMachine, 0.5);
 			this.vendingMachine.chipsSelected();
 			verify(this.display).update("THANK YOU");
 		}
 
 		@Test
 		public void doesNotDispenseChipsIfNotEnoughMoneyExists() throws Exception {
-			this.vendingMachine.userBalance.add(0.49);
+			addToUserBalance(this.vendingMachine, 0.49);
 			this.vendingMachine.chipsSelected();
 			verifyZeroInteractions(this.dispensor);
 		}
 
 		@Test
 		public void displaysPriceOfChipsIfChipsIsSelectedWithNotEnoughMoney() throws Exception {
-			this.vendingMachine.userBalance.reset();
+			resetUserBalance(this.vendingMachine);
 			this.vendingMachine.chipsSelected();
 			verify(this.display).update("PRICE $0.50");
 		}
 
 		@Test
 		public void userPaysForChipsFromUserBalance() throws Exception {
-			this.vendingMachine.userBalance.add(0.50);
+			addToUserBalance(this.vendingMachine, 0.50);
 			this.vendingMachine.chipsSelected();
-			assertThat(this.vendingMachine.userBalance.currentBalance(), equalTo(0.0));
+			assertThat(this.vendingMachine.moneyHandler.currentUserBalance(), equalTo(0.0));
 		}
 	}
 
@@ -284,19 +284,19 @@ public class VendingMachineControllerTest {
 		@Test
 		public void quarterInserted() throws Exception {
 			addCoin(QUARTER);
-			assertThat(this.vendingMachine.userBalance.currentBalance(), equalTo(0.25));
+			assertThat(this.vendingMachine.moneyHandler.currentUserBalance(), equalTo(0.25));
 		}
 
 		@Test
 		public void dimeInserted() throws Exception {
 			addCoin(DIME);
-			assertThat(this.vendingMachine.userBalance.currentBalance(), equalTo(0.1));
+			assertThat(this.vendingMachine.moneyHandler.currentUserBalance(), equalTo(0.1));
 		}
 
 		@Test
 		public void nickelInserted() throws Exception {
 			addCoin(NICKEL);
-			assertThat(this.vendingMachine.userBalance.currentBalance(), equalTo(0.05));
+			assertThat(this.vendingMachine.moneyHandler.currentUserBalance(), equalTo(0.05));
 		}
 
 		@Test
@@ -345,28 +345,28 @@ public class VendingMachineControllerTest {
 
 		@Test
 		public void returnsNickelAsChange() throws Exception {
-			this.vendingMachine.userBalance.add(1.05);
+			addToUserBalance(this.vendingMachine, 1.05);
 			this.vendingMachine.colaSelected();
 			verify(this.coinReturn).returnCoin(NICKEL);
 		}
 
 		@Test
 		public void returnsDimeAsChange() throws Exception {
-			this.vendingMachine.userBalance.add(1.10);
+			addToUserBalance(this.vendingMachine, 1.10);
 			this.vendingMachine.colaSelected();
 			verify(this.coinReturn).returnCoin(DIME);
 		}
 
 		@Test
 		public void returnsQuarterAsChange() throws Exception {
-			this.vendingMachine.userBalance.add(1.25);
+			addToUserBalance(this.vendingMachine, 1.25);
 			this.vendingMachine.colaSelected();
 			verify(this.coinReturn).returnCoin(QUARTER);
 		}
 
 		@Test
 		public void returnsMultipleCoinsAsChange() throws Exception {
-			this.vendingMachine.userBalance.add(1.40);
+			addToUserBalance(this.vendingMachine, 1.40);
 			this.vendingMachine.colaSelected();
 			verify(this.coinReturn).returnCoin(QUARTER);
 			verify(this.coinReturn).returnCoin(DIME);
@@ -375,9 +375,9 @@ public class VendingMachineControllerTest {
 
 		@Test
 		public void userBalanceIsZeroAfterChangeIsGiven() throws Exception {
-			this.vendingMachine.userBalance.add(1.40);
+			addToUserBalance(this.vendingMachine, 1.40);
 			this.vendingMachine.colaSelected();
-			assertThat(this.vendingMachine.userBalance.currentBalance(), equalTo(0.0));
+			assertThat(this.vendingMachine.moneyHandler.currentUserBalance(), equalTo(0.0));
 		}
 	}
 
@@ -395,7 +395,7 @@ public class VendingMachineControllerTest {
 
 		@Test
 		public void returnsAllBalanceWhenRequested() throws Exception {
-			this.vendingMachine.userBalance.add(0.4);
+			addToUserBalance(this.vendingMachine, 0.4);
 			this.vendingMachine.returnCoinBalance();
 			verify(this.coinReturn).returnCoin(QUARTER);
 			verify(this.coinReturn).returnCoin(DIME);
@@ -404,9 +404,17 @@ public class VendingMachineControllerTest {
 
 		@Test
 		public void returnCoinsDisplaysStatusMessageWhenFinished() throws Exception {
-			this.vendingMachine.userBalance.add(0.4);
+			addToUserBalance(this.vendingMachine, 0.4);
 			this.vendingMachine.returnCoinBalance();
 			verify(this.display, atLeastOnce()).update("EXACT CHANGE ONLY");
 		}
+	}
+
+	private static void addToUserBalance(final VendingMachineController vendingMachine, final double amount) {
+		vendingMachine.moneyHandler.addToUserBalance(amount);
+	}
+
+	private static void resetUserBalance(final VendingMachineController vendingMachine) {
+		vendingMachine.moneyHandler.resetUserBalance();
 	}
 }
