@@ -21,7 +21,6 @@ public class CoinBank {
 
 	public void returnChange(final double changeToMake, final CoinReturn coinReturn) {
 		this.changeLeftToReturn = changeToMake;
-
 		makeChangeWith(QUARTER, coinReturn);
 		makeChangeWith(DIME, coinReturn);
 		makeChangeWith(NICKEL, coinReturn);

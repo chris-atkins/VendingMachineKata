@@ -5,6 +5,7 @@ import static chris.atkins.vendingmachine.money.Coin.INVALID_COIN;
 import static chris.atkins.vendingmachine.money.Coin.NICKEL;
 import static chris.atkins.vendingmachine.money.Coin.QUARTER;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
@@ -74,5 +75,20 @@ public class CoinTest {
 	@Test
 	public void invalidCoinHasNullWeight() throws Exception {
 		assertThat(INVALID_COIN.weightInMg(), nullValue());
+	}
+
+	@Test
+	public void quarterMatchesSpecs() throws Exception {
+		assertThat(QUARTER.matchesSpecs(QUARTER.sizeInMM(), QUARTER.weightInMg()), is(true));
+	}
+
+	@Test
+	public void dimeMatchesSpecs() throws Exception {
+		assertThat(DIME.matchesSpecs(DIME.sizeInMM(), DIME.weightInMg()), is(true));
+	}
+
+	@Test
+	public void nickelMatchesSpecs() throws Exception {
+		assertThat(NICKEL.matchesSpecs(NICKEL.sizeInMM(), NICKEL.weightInMg()), is(true));
 	}
 }

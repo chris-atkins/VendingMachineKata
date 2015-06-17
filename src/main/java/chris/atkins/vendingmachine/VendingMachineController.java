@@ -13,7 +13,7 @@ import chris.atkins.vendingmachine.money.CoinReturn;
 import chris.atkins.vendingmachine.money.InsertedCoin;
 
 
-public class VendingMachineController {
+public final class VendingMachineController {
 
 	private final DisplayManager display;
 	final ItemManager inventory;
