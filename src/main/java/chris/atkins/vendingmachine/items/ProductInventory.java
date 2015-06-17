@@ -26,4 +26,8 @@ public class ProductInventory {
 		return this.inventory.get(item);
 	}
 
+	public void setInventory(final Item item, final int count) {
+		this.inventory.put(item, count);
+	}
+
 }

@@ -54,7 +54,7 @@ public class VendingMachineController {
 	private void itemSelected(final Item item) {
 		if (this.inventory.isOutOfStockFor(item)) {
 			this.display.outOfStock();
-			// return;
+			return;
 		}
 
 		if (this.userBalance.currentBalance() < item.price()) {
@@ -64,6 +64,7 @@ public class VendingMachineController {
 
 		this.productDispensor.dispenseItem(item);
 		this.inventory.dispense(item);
+
 		this.userBalance.pay(item.price());
 		this.coinBank.returnChange(this.userBalance.currentBalance(), this.coinReturn);
 		this.userBalance.reset();

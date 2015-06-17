@@ -135,14 +135,17 @@ public class VendingMachineControllerTest {
 			verify(this.display).update("SOLD OUT");
 		}
 
-		private void purchaseAllTheColas() {
-			final int numberInInventory = this.vendingMachine.inventory.numberOf(COLA);
-			for (int i = 0; i < numberInInventory; i++) {
-				this.vendingMachine.userBalance.add(1.00);
-				this.vendingMachine.colaSelected();
-			}
+		@Test
+		public void noItemIsDispensedIfSoldOut() throws Exception {
+			purchaseAllTheColas();
+			this.vendingMachine.userBalance.add(1.00);
+			this.vendingMachine.colaSelected();
+			verifyZeroInteractions(this.dispensor);
 		}
 
+		private void purchaseAllTheColas() {
+			this.vendingMachine.inventory.setInventory(COLA, 0);
+		}
 	}
 
 	@RunWith(MockitoJUnitRunner.class)
