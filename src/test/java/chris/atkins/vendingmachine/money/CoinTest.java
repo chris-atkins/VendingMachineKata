@@ -1,6 +1,7 @@
 package chris.atkins.vendingmachine.money;
 
 import static chris.atkins.vendingmachine.money.Coin.DIME;
+import static chris.atkins.vendingmachine.money.Coin.NICKEL;
 import static chris.atkins.vendingmachine.money.Coin.QUARTER;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -19,12 +20,12 @@ public class CoinTest {
 	}
 
 	@Test
-	public void quarterSize5() throws Exception {
+	public void quarterSize() throws Exception {
 		assertThat(QUARTER.sizeInMM(), equalTo(5));
 	}
 
 	@Test
-	public void quarterWeighs3() throws Exception {
+	public void quarterWeight() throws Exception {
 		assertThat(QUARTER.weightInMg(), equalTo(3));
 	}
 
@@ -34,12 +35,27 @@ public class CoinTest {
 	}
 
 	@Test
-	public void dimeSize3() throws Exception {
-		assertThat(Coin.DIME.sizeInMM(), equalTo(3));
+	public void dimeSize() throws Exception {
+		assertThat(DIME.sizeInMM(), equalTo(3));
 	}
 
 	@Test
-	public void dimeWeighs1() throws Exception {
-		assertThat(Coin.DIME.weightInMg(), equalTo(1));
+	public void dimeWeight() throws Exception {
+		assertThat(DIME.weightInMg(), equalTo(1));
+	}
+
+	@Test
+	public void nickelHasCorrectValue() throws Exception {
+		assertThat(NICKEL.value(), equalTo(0.05));
+	}
+
+	@Test
+	public void nickelSize() throws Exception {
+		assertThat(NICKEL.sizeInMM(), equalTo(4));
+	}
+
+	@Test
+	public void nickelWeight() throws Exception {
+		assertThat(NICKEL.weightInMg(), equalTo(3));
 	}
 }

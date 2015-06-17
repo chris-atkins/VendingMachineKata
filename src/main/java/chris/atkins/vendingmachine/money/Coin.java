@@ -1,7 +1,7 @@
 package chris.atkins.vendingmachine.money;
 
 public enum Coin {
-	QUARTER(0.25, 5, 3), DIME(0.1, 3, 1);
+	QUARTER(0.25, 5, 3), DIME(0.1, 3, 1), NICKEL(0.05, 4, 3);
 
 	private double value;
 	private int sizeInMM;
