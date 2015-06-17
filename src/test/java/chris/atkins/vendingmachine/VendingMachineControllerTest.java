@@ -118,6 +118,21 @@ public class VendingMachineControllerTest {
 			assertThat(this.vendingMachine.userBalance.currentBalance(), equalTo(0.0));
 		}
 
+		@Test
+		public void displaysSoldOutIfNoInventoryExists() throws Exception {
+			purchaseTwoColas();  // inventory starts with 2
+			this.vendingMachine.userBalance.add(1.00);
+			this.vendingMachine.colaSelected();
+			verify(this.display).update("SOLD OUT");
+		}
+
+		private void purchaseTwoColas() {
+			this.vendingMachine.userBalance.add(1.00);
+			this.vendingMachine.colaSelected();
+			this.vendingMachine.userBalance.add(1.00);
+			this.vendingMachine.colaSelected();
+		}
+
 	}
 
 	@RunWith(MockitoJUnitRunner.class)

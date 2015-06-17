@@ -6,6 +6,7 @@ import static chris.atkins.vendingmachine.items.Item.COLA;
 import chris.atkins.vendingmachine.display.Display;
 import chris.atkins.vendingmachine.display.DisplayManager;
 import chris.atkins.vendingmachine.items.Item;
+import chris.atkins.vendingmachine.items.ProductInventory;
 import chris.atkins.vendingmachine.money.Coin;
 import chris.atkins.vendingmachine.money.CoinBank;
 import chris.atkins.vendingmachine.money.CoinTypeIdentifier;
@@ -21,6 +22,7 @@ public class VendingMachineController {
 	private final CoinTypeIdentifier coinIdentifier;
 	private final CoinReturn coinReturn;
 	private final CoinBank coinBank;
+	private final ProductInventory inventory;
 
 	public VendingMachineController(final ProductDispensor productDispensor, final Display display, final CoinReturn coinReturn) {
 		this.productDispensor = productDispensor;
@@ -29,6 +31,7 @@ public class VendingMachineController {
 		this.coinIdentifier = new CoinTypeIdentifier();
 		this.coinBank = new CoinBank();
 		this.display = new DisplayManager(display, this.userBalance);
+		this.inventory = new ProductInventory(2, 2, 2);
 		initializeDisplay();
 	}
 
@@ -54,7 +57,12 @@ public class VendingMachineController {
 			return;
 		}
 
+		if (this.inventory.isOutOfStockFor(item)) {
+			this.display.outOfStock();
+			// return;
+		}
 		this.productDispensor.dispenseItem(item);
+		this.inventory.dispense(item);
 		this.userBalance.pay(item.price());
 		this.coinBank.returnChange(this.userBalance.currentBalance(), this.coinReturn);
 		this.userBalance.reset();
