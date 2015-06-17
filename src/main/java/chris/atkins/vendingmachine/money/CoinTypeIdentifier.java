@@ -5,16 +5,17 @@ import static chris.atkins.vendingmachine.money.Coin.NICKEL;
 import static chris.atkins.vendingmachine.money.Coin.QUARTER;
 
 
-public class CoinAcceptor {
+public class CoinTypeIdentifier {
 
 	private static Coin[] validCoins = new Coin[] { QUARTER, DIME, NICKEL };
 
-	public Coin determineCoinType(final int sizeInMM, final int weightInMg) {
+	public Coin identify(final int sizeInMM, final int weightInMg) {
 		for (final Coin coin : validCoins) {
-			if (coin.sizeInMM() == sizeInMM && coin.weightInMg() == weightInMg) {
+			if (coin.matchesSpecs(sizeInMM, weightInMg)) {
 				return coin;
 			}
 		}
+
 		return Coin.INVALID_COIN;
 	}
 

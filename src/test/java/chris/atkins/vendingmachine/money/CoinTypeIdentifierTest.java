@@ -12,27 +12,27 @@ import org.junit.runners.JUnit4;
 
 
 @RunWith(JUnit4.class)
-public class CoinAcceptorTest {
+public class CoinTypeIdentifierTest {
 
-	private CoinAcceptor coinAcceptor = new CoinAcceptor();
+	private CoinTypeIdentifier coinIdentifier = new CoinTypeIdentifier();
 
 	@Test
 	public void acceptsQuarters() throws Exception {
-		assertThat(this.coinAcceptor.determineCoinType(QUARTER.sizeInMM(), QUARTER.weightInMg()), equalTo(QUARTER));
+		assertThat(this.coinIdentifier.identify(QUARTER.sizeInMM(), QUARTER.weightInMg()), equalTo(QUARTER));
 	}
 
 	@Test
 	public void acceptsDimes() throws Exception {
-		assertThat(this.coinAcceptor.determineCoinType(DIME.sizeInMM(), DIME.weightInMg()), equalTo(DIME));
+		assertThat(this.coinIdentifier.identify(DIME.sizeInMM(), DIME.weightInMg()), equalTo(DIME));
 	}
 
 	@Test
 	public void acceptsNickels() throws Exception {
-		assertThat(this.coinAcceptor.determineCoinType(NICKEL.sizeInMM(), NICKEL.weightInMg()), equalTo(NICKEL));
+		assertThat(this.coinIdentifier.identify(NICKEL.sizeInMM(), NICKEL.weightInMg()), equalTo(NICKEL));
 	}
 
 	@Test
 	public void unknownCoins() throws Exception {
-		assertThat(this.coinAcceptor.determineCoinType(42, 23), equalTo(Coin.INVALID_COIN));
+		assertThat(this.coinIdentifier.identify(42, 23), equalTo(Coin.INVALID_COIN));
 	}
 }

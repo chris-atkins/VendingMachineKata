@@ -25,4 +25,7 @@ public enum Coin {
 		return this.weightInMg;
 	}
 
+	public boolean matchesSpecs(final int sizeInMM, final int weightInMg) {
+		return this.sizeInMM == sizeInMM && this.weightInMg == weightInMg;
+	}
 }
