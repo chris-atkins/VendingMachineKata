@@ -1,7 +1,7 @@
 package chris.atkins.vendingmachine.items;
 
 public enum Item {
-	COLA(1.0), CANDY(0.65);
+	COLA(1.0), CANDY(0.65), CHIPS(0.5);
 
 	private double price;
 

@@ -1,5 +1,7 @@
 package chris.atkins.vendingmachine;
 
+import static chris.atkins.vendingmachine.items.Item.CANDY;
+import static chris.atkins.vendingmachine.items.Item.CHIPS;
 import static chris.atkins.vendingmachine.money.Coin.DIME;
 import static chris.atkins.vendingmachine.money.Coin.NICKEL;
 import static chris.atkins.vendingmachine.money.Coin.QUARTER;
@@ -137,7 +139,7 @@ public class VendingMachineControllerTest {
 		public void whenCandyIsSelectedItIsDispensedWithExactChange() throws Exception {
 			this.vendingMachine.userBalance.add(0.65);
 			this.vendingMachine.candySelected();
-			verify(this.dispensor).dispenseItem(Item.CANDY);
+			verify(this.dispensor).dispenseItem(CANDY);
 		}
 
 		@Test
@@ -165,6 +167,57 @@ public class VendingMachineControllerTest {
 		public void userPaysForCandyFromUserBalance() throws Exception {
 			this.vendingMachine.userBalance.add(0.65);
 			this.vendingMachine.candySelected();
+			assertThat(this.vendingMachine.userBalance.currentBalance(), equalTo(0.0));
+		}
+	}
+
+	@RunWith(MockitoJUnitRunner.class)
+	public static class VendingMachineChipsSelectedTest {
+
+		@InjectMocks
+		private VendingMachineController vendingMachine;
+
+		@Mock
+		private ProductDispensor dispensor;
+
+		@Mock
+		private Display display;
+
+		@Mock
+		private CoinReturn coinReturn;
+
+		@Test
+		public void whenChipsIsSelectedItIsDispensedWithExactChange() throws Exception {
+			this.vendingMachine.userBalance.add(0.5);
+			this.vendingMachine.chipsSelected();
+			verify(this.dispensor).dispenseItem(CHIPS);
+		}
+
+		@Test
+		public void whenChipsIsDispensedTheDisplayReadsThankYou() throws Exception {
+			this.vendingMachine.userBalance.add(0.5);
+			this.vendingMachine.chipsSelected();
+			verify(this.display).update("THANK YOU");
+		}
+
+		@Test
+		public void doesNotDispenseChipsIfNotEnoughMoneyExists() throws Exception {
+			this.vendingMachine.userBalance.add(0.49);
+			this.vendingMachine.chipsSelected();
+			verifyZeroInteractions(this.dispensor);
+		}
+
+		@Test
+		public void displaysPriceOfChipsIfChipsIsSelectedWithNotEnoughMoney() throws Exception {
+			this.vendingMachine.userBalance.reset();
+			this.vendingMachine.chipsSelected();
+			verify(this.display).update("PRICE $0.50");
+		}
+
+		@Test
+		public void userPaysForChipsFromUserBalance() throws Exception {
+			this.vendingMachine.userBalance.add(0.50);
+			this.vendingMachine.chipsSelected();
 			assertThat(this.vendingMachine.userBalance.currentBalance(), equalTo(0.0));
 		}
 	}

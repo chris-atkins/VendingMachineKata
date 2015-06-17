@@ -1,6 +1,7 @@
 package chris.atkins.vendingmachine;
 
 import static chris.atkins.vendingmachine.items.Item.CANDY;
+import static chris.atkins.vendingmachine.items.Item.CHIPS;
 import static chris.atkins.vendingmachine.items.Item.COLA;
 import chris.atkins.vendingmachine.display.Display;
 import chris.atkins.vendingmachine.display.DisplayManager;
@@ -41,6 +42,10 @@ public class VendingMachineController {
 
 	public void candySelected() {
 		itemSelected(CANDY);
+	}
+
+	public void chipsSelected() {
+		itemSelected(CHIPS);
 	}
 
 	private void itemSelected(final Item item) {
