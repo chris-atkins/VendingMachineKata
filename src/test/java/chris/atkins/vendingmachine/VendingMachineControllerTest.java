@@ -22,7 +22,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import chris.atkins.vendingmachine.display.Display;
 import chris.atkins.vendingmachine.items.Item;
-import chris.atkins.vendingmachine.items.ProductDispensor;
+import chris.atkins.vendingmachine.items.ItemDispensor;
 import chris.atkins.vendingmachine.money.Coin;
 import chris.atkins.vendingmachine.money.InsertedCoin;
 
@@ -77,7 +77,7 @@ public class VendingMachineControllerTest {
 		private VendingMachineController vendingMachine;
 
 		@Mock
-		private ProductDispensor dispensor;
+		private ItemDispensor dispensor;
 
 		@Mock
 		private Display display;
@@ -164,7 +164,7 @@ public class VendingMachineControllerTest {
 		private VendingMachineController vendingMachine;
 
 		@Mock
-		private ProductDispensor dispensor;
+		private ItemDispensor dispensor;
 
 		@Mock
 		private Display display;
@@ -215,7 +215,7 @@ public class VendingMachineControllerTest {
 		private VendingMachineController vendingMachine;
 
 		@Mock
-		private ProductDispensor dispensor;
+		private ItemDispensor dispensor;
 
 		@Mock
 		private Display display;
@@ -325,7 +325,7 @@ public class VendingMachineControllerTest {
 		private VendingMachineController vendingMachine;
 
 		@Mock
-		private ProductDispensor dispensor;
+		private ItemDispensor dispensor;
 
 		@Mock
 		private CoinReturn coinReturn;

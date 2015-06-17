@@ -18,7 +18,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class ProductInventoryTest {
 
 	@Mock
-	private ProductDispensor dispensor;
+	private ItemDispensor dispensor;
 
 	@Test
 	public void initializesWithPassedValues() throws Exception {

@@ -6,7 +6,7 @@ import static chris.atkins.vendingmachine.items.Item.COLA;
 import chris.atkins.vendingmachine.display.Display;
 import chris.atkins.vendingmachine.display.DisplayManager;
 import chris.atkins.vendingmachine.items.Item;
-import chris.atkins.vendingmachine.items.ProductDispensor;
+import chris.atkins.vendingmachine.items.ItemDispensor;
 import chris.atkins.vendingmachine.items.ProductInventory;
 import chris.atkins.vendingmachine.money.Coin;
 import chris.atkins.vendingmachine.money.CoinBank;
@@ -17,7 +17,7 @@ import chris.atkins.vendingmachine.money.UserBalance;
 
 public class VendingMachineController {
 
-	private final ProductDispensor productDispensor;
+	private final ItemDispensor itemDispensor;
 	private final DisplayManager display;
 	private final CoinTypeIdentifier coinIdentifier;
 	private final CoinReturn coinReturn;
@@ -25,8 +25,8 @@ public class VendingMachineController {
 	final UserBalance userBalance;
 	final ProductInventory inventory;
 
-	public VendingMachineController(final ProductDispensor productDispensor, final Display display, final CoinReturn coinReturn) {
-		this.productDispensor = productDispensor;
+	public VendingMachineController(final ItemDispensor itemDispensor, final Display display, final CoinReturn coinReturn) {
+		this.itemDispensor = itemDispensor;
 		this.coinReturn = coinReturn;
 		this.userBalance = new UserBalance();
 		this.coinIdentifier = new CoinTypeIdentifier();
@@ -63,11 +63,12 @@ public class VendingMachineController {
 			return;
 		}
 
-		this.inventory.dispense(item, this.productDispensor);
+		this.inventory.dispense(item, this.itemDispensor);
 
 		this.userBalance.pay(item.price());
 		this.coinBank.returnChange(this.userBalance.currentBalance(), this.coinReturn);
 		this.userBalance.reset();
+
 		this.display.thanksForThePurchase();
 	}
 
