@@ -3,7 +3,6 @@ package chris.atkins.vendingmachine.money;
 import static chris.atkins.vendingmachine.money.Coin.DIME;
 import static chris.atkins.vendingmachine.money.Coin.NICKEL;
 import static chris.atkins.vendingmachine.money.Coin.QUARTER;
-import chris.atkins.vendingmachine.CoinReturn;
 
 
 public class CoinBank {

@@ -10,6 +10,7 @@ import chris.atkins.vendingmachine.items.ItemDispensor;
 import chris.atkins.vendingmachine.items.ItemManager;
 import chris.atkins.vendingmachine.money.Coin;
 import chris.atkins.vendingmachine.money.CoinBank;
+import chris.atkins.vendingmachine.money.CoinReturn;
 import chris.atkins.vendingmachine.money.CoinTypeIdentifier;
 import chris.atkins.vendingmachine.money.InsertedCoin;
 import chris.atkins.vendingmachine.money.UserBalance;

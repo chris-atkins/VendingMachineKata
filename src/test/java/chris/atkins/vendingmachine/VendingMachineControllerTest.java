@@ -24,6 +24,7 @@ import chris.atkins.vendingmachine.display.Display;
 import chris.atkins.vendingmachine.items.Item;
 import chris.atkins.vendingmachine.items.ItemDispensor;
 import chris.atkins.vendingmachine.money.Coin;
+import chris.atkins.vendingmachine.money.CoinReturn;
 import chris.atkins.vendingmachine.money.InsertedCoin;
 
 

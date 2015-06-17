@@ -12,8 +12,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import chris.atkins.vendingmachine.CoinReturn;
-
 
 @RunWith(MockitoJUnitRunner.class)
 public class CoinBankTest {
