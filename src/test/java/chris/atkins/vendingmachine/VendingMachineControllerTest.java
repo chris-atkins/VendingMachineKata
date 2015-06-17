@@ -143,6 +143,14 @@ public class VendingMachineControllerTest {
 			verifyZeroInteractions(this.dispensor);
 		}
 
+		@Test
+		public void sameBalanceIfSoldOut() throws Exception {
+			purchaseAllTheColas();
+			this.vendingMachine.userBalance.add(1.10);
+			this.vendingMachine.colaSelected();
+			assertThat(this.vendingMachine.userBalance.currentBalance(), equalTo(1.1));
+		}
+
 		private void purchaseAllTheColas() {
 			this.vendingMachine.inventory.setInventory(COLA, 0);
 		}
