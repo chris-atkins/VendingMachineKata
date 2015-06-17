@@ -32,7 +32,7 @@ public class VendingMachineController {
 	}
 
 	private void initializeDisplay() {
-		updateBalanceToDisplay();
+		displayBalance();
 	}
 
 	public void colaSelected() {
@@ -65,15 +65,15 @@ public class VendingMachineController {
 
 	public void coinInserted(final InsertedCoin insertedCoin) {
 		this.moneyHandler.coinInserted(insertedCoin);
-		updateBalanceToDisplay();
+		displayBalance();
 	}
 
 	public void returnCoinBalance() {
 		this.moneyHandler.returnCoins();
-		updateBalanceToDisplay();
+		displayBalance();
 	}
 
-	public void updateBalanceToDisplay() {
+	public void displayBalance() {
 		this.display.updateBalanceStatus(this.moneyHandler.currentUserBalance());
 	}
 }
