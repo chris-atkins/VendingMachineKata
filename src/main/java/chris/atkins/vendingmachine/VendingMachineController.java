@@ -8,11 +8,9 @@ import chris.atkins.vendingmachine.display.DisplayManager;
 import chris.atkins.vendingmachine.items.Item;
 import chris.atkins.vendingmachine.items.ItemDispensor;
 import chris.atkins.vendingmachine.items.ItemManager;
-import chris.atkins.vendingmachine.money.Coin;
 import chris.atkins.vendingmachine.money.CoinBank;
 import chris.atkins.vendingmachine.money.CoinManager;
 import chris.atkins.vendingmachine.money.CoinReturn;
-import chris.atkins.vendingmachine.money.CoinTypeIdentifier;
 import chris.atkins.vendingmachine.money.InsertedCoin;
 import chris.atkins.vendingmachine.money.UserBalance;
 
@@ -21,7 +19,6 @@ public class VendingMachineController {
 
 	private final ItemDispensor itemDispensor;
 	private final DisplayManager display;
-	private final CoinTypeIdentifier coinIdentifier;
 	private final CoinReturn coinReturn;
 	private final CoinBank coinBank;
 	final UserBalance userBalance;
@@ -32,7 +29,6 @@ public class VendingMachineController {
 		this.itemDispensor = itemDispensor;
 		this.coinReturn = coinReturn;
 		this.userBalance = new UserBalance();
-		this.coinIdentifier = new CoinTypeIdentifier();
 		this.coinBank = new CoinBank();
 		this.display = new DisplayManager(display, this.userBalance);
 		this.inventory = new ItemManager(2, 2, 2);
@@ -73,13 +69,7 @@ public class VendingMachineController {
 	}
 
 	public void coinInserted(final InsertedCoin insertedCoin) {
-		final Coin coin = this.coinIdentifier.identify(insertedCoin);
-		if (coin == Coin.INVALID_COIN) {
-			this.coinReturn.returnCoin(insertedCoin);
-			return;
-		}
-
-		this.userBalance.add(coin.value());
+		this.moneyHandler.coinInserted(insertedCoin);
 		updateBalanceToDisplay();
 	}
 
