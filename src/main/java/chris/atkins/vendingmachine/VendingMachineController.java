@@ -58,6 +58,6 @@ public class VendingMachineController {
 	}
 
 	public void updateStatusToDisplay() {
-		this.display.updateStatus();
+		this.display.updateBalanceStatus();
 	}
 }
