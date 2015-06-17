@@ -35,6 +35,9 @@ public class VendingMachineControllerTest {
 		@Mock
 		private Display display;
 
+		@Mock
+		private CoinReturn coinReturn;
+
 		@Test
 		public void whenColaIsSelectedItIsDispensedWithExactChange() throws Exception {
 			this.vendingMachine.userBank.add(1.00);
@@ -118,4 +121,34 @@ public class VendingMachineControllerTest {
 		}
 	}
 
+	@RunWith(MockitoJUnitRunner.class)
+	public static class ChangeReturnedTest {
+
+		@InjectMocks
+		private VendingMachineController vendingMachine;
+
+		@Mock
+		private ProductDispensor dispensor;
+
+		@Mock
+		private CoinReturn coinReturn;
+
+		@Mock
+		private Display display;
+
+		@Test
+		public void returnsNickelAsChange() throws Exception {
+			this.vendingMachine.userBank.add(1.05);
+			this.vendingMachine.colaSelected();
+			verify(this.coinReturn).returnCoin(NICKEL);
+		}
+
+		@Test
+		public void returnsDimeAsChange() throws Exception {
+			this.vendingMachine.userBank.add(1.10);
+			this.vendingMachine.colaSelected();
+			verify(this.coinReturn).returnCoin(DIME);
+
+		}
+	}
 }
