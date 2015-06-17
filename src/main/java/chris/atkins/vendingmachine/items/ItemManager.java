@@ -11,12 +11,14 @@ import java.util.Map;
 public class ItemManager {
 
 	private final Map<Item, Integer> inventory = new HashMap<>();
+	private final ItemDispensor itemDispensor;
 
-	public ItemManager() {
-		this(STARTING_COLA_INVENTORY, STARTING_CANDY_INVENTORY, STARTING_CHIPS_INVENTORY);
+	public ItemManager(final ItemDispensor itemDispensor) {
+		this(itemDispensor, STARTING_COLA_INVENTORY, STARTING_CANDY_INVENTORY, STARTING_CHIPS_INVENTORY);
 	}
 
-	public ItemManager(final int numberOfColas, final int numberOfCandies, final int numberOfChips) {
+	public ItemManager(final ItemDispensor itemDispensor, final int numberOfColas, final int numberOfCandies, final int numberOfChips) {
+		this.itemDispensor = itemDispensor;
 		this.inventory.put(Item.COLA, numberOfColas);
 		this.inventory.put(Item.CANDY, numberOfCandies);
 		this.inventory.put(Item.CHIPS, numberOfChips);
@@ -26,9 +28,9 @@ public class ItemManager {
 		return this.inventory.get(item).equals(Integer.valueOf(0));
 	}
 
-	public void dispenseItemTo(final Item item, final ItemDispensor itemDispensor) {
+	public void dispenseItem(final Item item) {
 		this.inventory.put(item, this.inventory.get(item) - 1);
-		itemDispensor.dispenseItem(item);
+		this.itemDispensor.dispenseItem(item);
 	}
 
 	public int numberOf(final Item item) {

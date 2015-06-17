@@ -15,15 +15,13 @@ import chris.atkins.vendingmachine.money.InsertedCoin;
 
 public class VendingMachineController {
 
-	private final ItemDispensor itemDispensor;
 	private final DisplayManager display;
 	final ItemManager inventory;
 	final CoinManager moneyHandler;
 
 	public VendingMachineController(final ItemDispensor itemDispensor, final Display display, final CoinReturn coinReturn) {
-		this.itemDispensor = itemDispensor;
 		this.display = new DisplayManager(display);
-		this.inventory = new ItemManager();
+		this.inventory = new ItemManager(itemDispensor);
 		this.moneyHandler = new CoinManager(coinReturn);
 		initializeDisplay();
 	}
@@ -54,7 +52,7 @@ public class VendingMachineController {
 			return;
 		}
 
-		this.inventory.dispenseItemTo(item, this.itemDispensor);
+		this.inventory.dispenseItem(item);
 		this.moneyHandler.processPurchase(item);
 		this.display.thanksForThePurchase();
 	}
