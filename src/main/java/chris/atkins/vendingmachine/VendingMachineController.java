@@ -2,7 +2,6 @@ package chris.atkins.vendingmachine;
 
 import static chris.atkins.vendingmachine.items.Item.COLA;
 import chris.atkins.vendingmachine.display.Display;
-import chris.atkins.vendingmachine.money.CoinAcceptor;
 import chris.atkins.vendingmachine.money.UserBank;
 
 
@@ -11,13 +10,11 @@ public class VendingMachineController {
 	private final ProductDispensor productDispensor;
 	private final Display display;
 	final UserBank userBank;
-	private final CoinAcceptor coinAcceptor;
 
 	public VendingMachineController(final ProductDispensor productDispensor, final Display display) {
 		this.productDispensor = productDispensor;
 		this.display = display;
 		this.userBank = new UserBank();
-		this.coinAcceptor = new CoinAcceptor();
 	}
 
 	public void colaSelected() {
@@ -32,6 +29,5 @@ public class VendingMachineController {
 
 	public void insertCoin(final int sizeInMM, final int weightInMg) {
 		this.userBank.add(0.25);
-
 	}
 }

@@ -1,22 +1,21 @@
 package chris.atkins.vendingmachine;
 
+import static chris.atkins.vendingmachine.money.Coin.QUARTER;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
-import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import chris.atkins.vendingmachine.display.Display;
 import chris.atkins.vendingmachine.items.Item;
-import chris.atkins.vendingmachine.money.Coin;
-import chris.atkins.vendingmachine.money.CoinAcceptor;
 
 
 @RunWith(Enclosed.class)
@@ -61,27 +60,22 @@ public class VendingMachineControllerTest {
 		}
 	}
 
-	@RunWith(MockitoJUnitRunner.class)
+	@RunWith(JUnit4.class)
 	public static class VendingMachineCoinInsertedTest {
 
-		@InjectMocks
-		private VendingMachineController vendingMachine;
-
-		@Mock
-		private ProductDispensor dispensor;
-
-		@Mock
-		private Display display;
-
-		@Mock
-		private CoinAcceptor coinAcceptor;
+		private VendingMachineController vendingMachine = new VendingMachineController(null, null);
 
 		@Test
 		public void quarterInserted() throws Exception {
-			this.vendingMachine.insertCoin(5, 3);
-			when(this.coinAcceptor.determineCoinType(5, 3)).thenReturn(Coin.QUARTER);
+			this.vendingMachine.insertCoin(QUARTER.sizeInMM(), QUARTER.weightInMg());
 			assertThat(this.vendingMachine.userBank.currentBalance(), equalTo(0.25));
 		}
+
+		// @Test
+		// public void dimeInserted() throws Exception {
+		// this.vendingMachine.insertCoin(DIME.sizeInMM(), DIME.weightInMg());
+		// assertThat(this.vendingMachine.userBank.currentBalance(), equalTo(0.1));
+		// }
 	}
 
 }

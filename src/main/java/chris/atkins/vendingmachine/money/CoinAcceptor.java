@@ -2,7 +2,7 @@ package chris.atkins.vendingmachine.money;
 
 public class CoinAcceptor {
 
-	public Coin determineCoinType(final int i, final int j) {
+	public Coin determineCoinType(final int sizeInMM, final int weightInMg) {
 		throw new RuntimeException("Not Implemented.");
 
 	}
