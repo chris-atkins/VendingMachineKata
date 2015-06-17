@@ -1,6 +1,7 @@
 package chris.atkins.vendingmachine;
 
 import static chris.atkins.vendingmachine.money.Coin.DIME;
+import static chris.atkins.vendingmachine.money.Coin.NICKEL;
 import static chris.atkins.vendingmachine.money.Coin.QUARTER;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -76,6 +77,12 @@ public class VendingMachineControllerTest {
 		public void dimeInserted() throws Exception {
 			this.vendingMachine.insertCoin(DIME.sizeInMM(), DIME.weightInMg());
 			assertThat(this.vendingMachine.userBank.currentBalance(), equalTo(0.1));
+		}
+
+		@Test
+		public void nickelInserted() throws Exception {
+			this.vendingMachine.insertCoin(NICKEL.sizeInMM(), NICKEL.weightInMg());
+			assertThat(this.vendingMachine.userBank.currentBalance(), equalTo(0.05));
 		}
 	}
 
