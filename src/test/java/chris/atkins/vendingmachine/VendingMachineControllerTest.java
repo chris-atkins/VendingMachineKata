@@ -44,4 +44,10 @@ public class VendingMachineControllerTest {
 		this.vendingMachine.colaSelected();
 		verifyZeroInteractions(this.dispensor);
 	}
+
+	@Test
+	public void displaysPriceOfColaIfColaIsSelectedWithNotEnoughMoney() throws Exception {
+		this.vendingMachine.colaSelected();
+		verify(this.display).update("PRICE $1.00");
+	}
 }
