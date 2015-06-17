@@ -2,6 +2,7 @@ package chris.atkins.vendingmachine;
 
 import static chris.atkins.vendingmachine.items.Item.CANDY;
 import static chris.atkins.vendingmachine.items.Item.CHIPS;
+import static chris.atkins.vendingmachine.items.Item.COLA;
 import static chris.atkins.vendingmachine.money.Coin.DIME;
 import static chris.atkins.vendingmachine.money.Coin.NICKEL;
 import static chris.atkins.vendingmachine.money.Coin.QUARTER;
@@ -120,17 +121,26 @@ public class VendingMachineControllerTest {
 
 		@Test
 		public void displaysSoldOutIfNoInventoryExists() throws Exception {
-			purchaseTwoColas();  // inventory starts with 2
+			purchaseAllTheColas();
 			this.vendingMachine.userBalance.add(1.00);
 			this.vendingMachine.colaSelected();
 			verify(this.display).update("SOLD OUT");
 		}
 
-		private void purchaseTwoColas() {
-			this.vendingMachine.userBalance.add(1.00);
+		@Test
+		public void displaysSoldOutEvenIfUserHasNotEnteredMoney() throws Exception {
+			purchaseAllTheColas();
+			this.vendingMachine.userBalance.reset();
 			this.vendingMachine.colaSelected();
-			this.vendingMachine.userBalance.add(1.00);
-			this.vendingMachine.colaSelected();
+			verify(this.display).update("SOLD OUT");
+		}
+
+		private void purchaseAllTheColas() {
+			final int numberInInventory = this.vendingMachine.inventory.numberOf(COLA);
+			for (int i = 0; i < numberInInventory; i++) {
+				this.vendingMachine.userBalance.add(1.00);
+				this.vendingMachine.colaSelected();
+			}
 		}
 
 	}

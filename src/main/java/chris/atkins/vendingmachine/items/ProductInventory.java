@@ -22,4 +22,8 @@ public class ProductInventory {
 		this.inventory.put(item, this.inventory.get(item) - 1);
 	}
 
+	public int numberOf(final Item item) {
+		return this.inventory.get(item);
+	}
+
 }

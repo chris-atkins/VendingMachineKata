@@ -18,11 +18,11 @@ public class VendingMachineController {
 
 	private final ProductDispensor productDispensor;
 	private final DisplayManager display;
-	final UserBalance userBalance;
 	private final CoinTypeIdentifier coinIdentifier;
 	private final CoinReturn coinReturn;
 	private final CoinBank coinBank;
-	private final ProductInventory inventory;
+	final UserBalance userBalance;
+	final ProductInventory inventory;
 
 	public VendingMachineController(final ProductDispensor productDispensor, final Display display, final CoinReturn coinReturn) {
 		this.productDispensor = productDispensor;
@@ -52,15 +52,16 @@ public class VendingMachineController {
 	}
 
 	private void itemSelected(final Item item) {
+		if (this.inventory.isOutOfStockFor(item)) {
+			this.display.outOfStock();
+			// return;
+		}
+
 		if (this.userBalance.currentBalance() < item.price()) {
 			this.display.notifyPrice(item.price());
 			return;
 		}
 
-		if (this.inventory.isOutOfStockFor(item)) {
-			this.display.outOfStock();
-			// return;
-		}
 		this.productDispensor.dispenseItem(item);
 		this.inventory.dispense(item);
 		this.userBalance.pay(item.price());
