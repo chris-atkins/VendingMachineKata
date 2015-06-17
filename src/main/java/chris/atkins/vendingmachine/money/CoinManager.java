@@ -38,4 +38,7 @@ public class CoinManager {
 		this.userBalance.reset();
 	}
 
+	public boolean userDoesNotHaveEnoughMoneyToPurchase(final Item item) {
+		return this.userBalance.currentBalance() < item.price();
+	}
 }

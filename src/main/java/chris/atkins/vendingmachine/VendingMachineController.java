@@ -56,7 +56,7 @@ public class VendingMachineController {
 			return;
 		}
 
-		if (this.userBalance.currentBalance() < item.price()) {
+		if (this.moneyHandler.userDoesNotHaveEnoughMoneyToPurchase(item)) {
 			this.display.notifyPrice(item.price());
 			return;
 		}
@@ -71,12 +71,12 @@ public class VendingMachineController {
 		updateBalanceToDisplay();
 	}
 
-	public void updateBalanceToDisplay() {
-		this.display.updateBalanceStatus();
-	}
-
 	public void returnCoinBalance() {
 		this.moneyHandler.returnUsersBalance();
 		updateBalanceToDisplay();
+	}
+
+	public void updateBalanceToDisplay() {
+		this.display.updateBalanceStatus();
 	}
 }
