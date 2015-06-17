@@ -10,10 +10,10 @@ public class CoinManager {
 	private final CoinReturn coinReturn;
 	private final CoinTypeIdentifier coinIdentifier;
 
-	public CoinManager(final UserBalance userBalance, final CoinBank coinBank, final CoinReturn coinReturn) {
+	public CoinManager(final UserBalance userBalance, final CoinReturn coinReturn) {
 		this.userBalance = userBalance;
-		this.coinBank = coinBank;
 		this.coinReturn = coinReturn;
+		this.coinBank = new CoinBank();
 		this.coinIdentifier = new CoinTypeIdentifier();
 	}
 
