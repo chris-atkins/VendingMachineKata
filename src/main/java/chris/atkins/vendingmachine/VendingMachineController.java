@@ -4,6 +4,7 @@ import static chris.atkins.vendingmachine.items.Item.CANDY;
 import static chris.atkins.vendingmachine.items.Item.COLA;
 import chris.atkins.vendingmachine.display.Display;
 import chris.atkins.vendingmachine.display.DisplayManager;
+import chris.atkins.vendingmachine.items.Item;
 import chris.atkins.vendingmachine.money.Coin;
 import chris.atkins.vendingmachine.money.CoinBank;
 import chris.atkins.vendingmachine.money.CoinTypeIdentifier;
@@ -48,13 +49,17 @@ public class VendingMachineController {
 	}
 
 	public void candySelected() {
-		if (this.userBalance.currentBalance() < 0.65) {
-			this.display.notifyPrice(0.65);
+		itemSelected(CANDY);
+	}
+
+	private void itemSelected(final Item item) {
+		if (this.userBalance.currentBalance() < item.price()) {
+			this.display.notifyPrice(item.price());
 			return;
 		}
 
-		this.productDispensor.dispenseItem(CANDY);
-		this.userBalance.pay(0.65);
+		this.productDispensor.dispenseItem(item);
+		this.userBalance.pay(item.price());
 		this.coinBank.returnChange(this.userBalance.currentBalance(), this.coinReturn);
 		this.userBalance.reset();
 		this.display.thanksForThePurchase();
