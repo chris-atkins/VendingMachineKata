@@ -28,11 +28,15 @@ public class DisplayManager {
 	}
 
 	public void updateBalanceStatus() {
-		if (this.userBalance.currentBalance() == 0.0) {
+		if (hasZeroBalance()) {
 			this.display.update(NO_BALANCE_MESSAGE);
 		} else {
 			this.display.update(balance());
 		}
+	}
+
+	private boolean hasZeroBalance() {
+		return this.userBalance.currentBalance() == 0.0;
 	}
 
 	private String balance() {
