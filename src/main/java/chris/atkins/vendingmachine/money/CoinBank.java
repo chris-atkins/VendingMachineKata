@@ -2,21 +2,26 @@ package chris.atkins.vendingmachine.money;
 
 import static chris.atkins.vendingmachine.money.Coin.DIME;
 import static chris.atkins.vendingmachine.money.Coin.NICKEL;
+import static chris.atkins.vendingmachine.money.Coin.QUARTER;
 import chris.atkins.vendingmachine.CoinReturn;
 
 
 public class CoinBank {
 
-	public void returnChange(final double changeToMake, final CoinReturn coinReturn) {
-		double changeLeftToReturn = changeToMake;
-		while (changeLeftToReturn >= DIME.value()) {
-			coinReturn.returnCoin(DIME);
-			changeLeftToReturn -= DIME.value();
-		}
+	private double changeLeftToReturn;
 
-		while (changeLeftToReturn >= NICKEL.value()) {
-			coinReturn.returnCoin(NICKEL);
-			changeLeftToReturn -= NICKEL.value();
+	public void returnChange(final double changeToMake, final CoinReturn coinReturn) {
+		this.changeLeftToReturn = changeToMake;
+
+		makeChangeWith(QUARTER, coinReturn);
+		makeChangeWith(DIME, coinReturn);
+		makeChangeWith(NICKEL, coinReturn);
+	}
+
+	private void makeChangeWith(final Coin coinToUse, final CoinReturn coinReturn) {
+		while (this.changeLeftToReturn >= coinToUse.value()) {
+			coinReturn.returnCoin(coinToUse);
+			this.changeLeftToReturn -= coinToUse.value();
 		}
 	}
 }

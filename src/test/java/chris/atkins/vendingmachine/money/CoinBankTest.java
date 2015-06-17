@@ -2,6 +2,7 @@ package chris.atkins.vendingmachine.money;
 
 import static chris.atkins.vendingmachine.money.Coin.DIME;
 import static chris.atkins.vendingmachine.money.Coin.NICKEL;
+import static chris.atkins.vendingmachine.money.Coin.QUARTER;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,5 +33,11 @@ public class CoinBankTest {
 	public void returnsADime() throws Exception {
 		this.bank.returnChange(0.10, this.coinReturn);
 		Mockito.verify(this.coinReturn).returnCoin(DIME);
+	}
+
+	@Test
+	public void returnsAQuarter() throws Exception {
+		this.bank.returnChange(0.25, this.coinReturn);
+		Mockito.verify(this.coinReturn).returnCoin(QUARTER);
 	}
 }
