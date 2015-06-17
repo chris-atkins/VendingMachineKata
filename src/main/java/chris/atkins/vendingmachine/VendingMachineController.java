@@ -25,6 +25,11 @@ public class VendingMachineController {
 		this.userBalance = new UserBalance();
 		this.coinIdentifier = new CoinTypeIdentifier();
 		this.coinBank = new CoinBank();
+		initializeDisplay();
+	}
+
+	private void initializeDisplay() {
+		this.display.update("INSERT COIN");
 	}
 
 	public void colaSelected() {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="12" failures="0" name="chris.atkins.vendingmachine.money.CoinTest" time="0" errors="0" skipped="0">
+<testsuite tests="5" failures="0" name="chris.atkins.vendingmachine.money.CoinBankTest" time="0.017" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jre8\bin"/>
@@ -61,16 +61,9 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="chris.atkins.vendingmachine.money.CoinTest" name="invalidCoinHasNullWeight" time="0"/>
-  <testcase classname="chris.atkins.vendingmachine.money.CoinTest" name="invalidCoinHasNullSize" time="0"/>
-  <testcase classname="chris.atkins.vendingmachine.money.CoinTest" name="nickelHasCorrectValue" time="0"/>
-  <testcase classname="chris.atkins.vendingmachine.money.CoinTest" name="invalidCoinHasNoValue" time="0"/>
-  <testcase classname="chris.atkins.vendingmachine.money.CoinTest" name="nickelWeight" time="0"/>
-  <testcase classname="chris.atkins.vendingmachine.money.CoinTest" name="nickelSize" time="0"/>
-  <testcase classname="chris.atkins.vendingmachine.money.CoinTest" name="dimeHasCorrectValue" time="0"/>
-  <testcase classname="chris.atkins.vendingmachine.money.CoinTest" name="dimeWeight" time="0"/>
-  <testcase classname="chris.atkins.vendingmachine.money.CoinTest" name="dimeSize" time="0"/>
-  <testcase classname="chris.atkins.vendingmachine.money.CoinTest" name="quarterWeight" time="0"/>
-  <testcase classname="chris.atkins.vendingmachine.money.CoinTest" name="quarterHasCorrectValue" time="0"/>
-  <testcase classname="chris.atkins.vendingmachine.money.CoinTest" name="quarterSize" time="0"/>
+  <testcase classname="chris.atkins.vendingmachine.money.CoinBankTest" name="returnsAQuarter" time="0.017"/>
+  <testcase classname="chris.atkins.vendingmachine.money.CoinBankTest" name="returnsMultipleCoins" time="0"/>
+  <testcase classname="chris.atkins.vendingmachine.money.CoinBankTest" name="returnsBestDenominations" time="0"/>
+  <testcase classname="chris.atkins.vendingmachine.money.CoinBankTest" name="returnsANickel" time="0"/>
+  <testcase classname="chris.atkins.vendingmachine.money.CoinBankTest" name="returnsADime" time="0"/>
 </testsuite>

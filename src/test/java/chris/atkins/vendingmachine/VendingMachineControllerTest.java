@@ -25,6 +25,21 @@ import chris.atkins.vendingmachine.money.InsertedCoin;
 public class VendingMachineControllerTest {
 
 	@RunWith(MockitoJUnitRunner.class)
+	public static class VendingMachineInitializationTest {
+
+		@InjectMocks
+		private VendingMachineController vendingMachine;
+
+		@Mock
+		private Display display;
+
+		@Test
+		public void insertCoinsDisplayedOnInitialization() throws Exception {
+			verify(this.display).update("INSERT COIN");
+		}
+	}
+
+	@RunWith(MockitoJUnitRunner.class)
 	public static class VendingMachineColaSelectedTest {
 
 		@InjectMocks
