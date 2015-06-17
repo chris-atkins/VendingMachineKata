@@ -1,5 +1,8 @@
 package chris.atkins.vendingmachine.items;
 
+import static chris.atkins.vendingmachine.StartingInventory.STARTING_CANDY_INVENTORY;
+import static chris.atkins.vendingmachine.StartingInventory.STARTING_CHIPS_INVENTORY;
+import static chris.atkins.vendingmachine.StartingInventory.STARTING_COLA_INVENTORY;
 import static chris.atkins.vendingmachine.items.Item.CANDY;
 import static chris.atkins.vendingmachine.items.Item.CHIPS;
 import static chris.atkins.vendingmachine.items.Item.COLA;
@@ -19,6 +22,14 @@ public class ItemManagerTest {
 
 	@Mock
 	private ItemDispensor dispensor;
+
+	@Test
+	public void defaultConstructorStartsWithStartingInventoryConstants() throws Exception {
+		final ItemManager inventory = new ItemManager();
+		assertThat(inventory.numberOf(COLA), equalTo(STARTING_COLA_INVENTORY));
+		assertThat(inventory.numberOf(CANDY), equalTo(STARTING_CANDY_INVENTORY));
+		assertThat(inventory.numberOf(CHIPS), equalTo(STARTING_CHIPS_INVENTORY));
+	}
 
 	@Test
 	public void initializesWithPassedValues() throws Exception {

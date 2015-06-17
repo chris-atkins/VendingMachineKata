@@ -1,5 +1,9 @@
 package chris.atkins.vendingmachine.items;
 
+import static chris.atkins.vendingmachine.StartingInventory.STARTING_CANDY_INVENTORY;
+import static chris.atkins.vendingmachine.StartingInventory.STARTING_CHIPS_INVENTORY;
+import static chris.atkins.vendingmachine.StartingInventory.STARTING_COLA_INVENTORY;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,6 +11,10 @@ import java.util.Map;
 public class ItemManager {
 
 	private final Map<Item, Integer> inventory = new HashMap<>();
+
+	public ItemManager() {
+		this(STARTING_COLA_INVENTORY, STARTING_CANDY_INVENTORY, STARTING_CHIPS_INVENTORY);
+	}
 
 	public ItemManager(final int numberOfColas, final int numberOfCandies, final int numberOfChips) {
 		this.inventory.put(Item.COLA, numberOfColas);
