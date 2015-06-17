@@ -15,14 +15,14 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class ProductInventoryTest {
+public class ItemManagerTest {
 
 	@Mock
 	private ItemDispensor dispensor;
 
 	@Test
 	public void initializesWithPassedValues() throws Exception {
-		final ProductInventory inventory = new ProductInventory(1, 2, 3);
+		final ItemManager inventory = new ItemManager(1, 2, 3);
 		assertThat(inventory.numberOf(COLA), equalTo(1));
 		assertThat(inventory.numberOf(CANDY), equalTo(2));
 		assertThat(inventory.numberOf(CHIPS), equalTo(3));
@@ -30,20 +30,20 @@ public class ProductInventoryTest {
 
 	@Test
 	public void outOfStockTrue() throws Exception {
-		final ProductInventory inventory = new ProductInventory(0, 2, 3);
+		final ItemManager inventory = new ItemManager(0, 2, 3);
 		assertThat(inventory.isOutOfStockFor(COLA), is(true));
 	}
 
 	@Test
 	public void outOfStockFalse() throws Exception {
-		final ProductInventory inventory = new ProductInventory(0, 2, 3);
+		final ItemManager inventory = new ItemManager(0, 2, 3);
 		assertThat(inventory.isOutOfStockFor(CHIPS), is(false));
 	}
 
 	@Test
 	public void dispenseDecrementsSingleItem() throws Exception {
-		final ProductInventory inventory = new ProductInventory(1, 2, 3);
-		inventory.dispense(CHIPS, this.dispensor);
+		final ItemManager inventory = new ItemManager(1, 2, 3);
+		inventory.dispenseItemTo(CHIPS, this.dispensor);
 		assertThat(inventory.numberOf(COLA), equalTo(1));
 		assertThat(inventory.numberOf(CANDY), equalTo(2));
 		assertThat(inventory.numberOf(CHIPS), equalTo(2));
@@ -51,14 +51,14 @@ public class ProductInventoryTest {
 
 	@Test
 	public void dispensorIsCalledOnDispense() throws Exception {
-		final ProductInventory inventory = new ProductInventory(1, 2, 3);
-		inventory.dispense(CANDY, this.dispensor);
+		final ItemManager inventory = new ItemManager(1, 2, 3);
+		inventory.dispenseItemTo(CANDY, this.dispensor);
 		Mockito.verify(this.dispensor).dispenseItem(CANDY);
 	}
 
 	@Test
 	public void setInventoryWorks() throws Exception {
-		final ProductInventory inventory = new ProductInventory(1, 2, 3);
+		final ItemManager inventory = new ItemManager(1, 2, 3);
 		inventory.setInventory(COLA, 5);
 		assertThat(inventory.numberOf(COLA), equalTo(5));
 		assertThat(inventory.numberOf(CANDY), equalTo(2));

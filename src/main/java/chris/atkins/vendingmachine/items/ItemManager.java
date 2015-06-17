@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class ProductInventory {
+public class ItemManager {
 
 	private final Map<Item, Integer> inventory = new HashMap<>();
 
-	public ProductInventory(final int numberOfColas, final int numberOfCandies, final int numberOfChips) {
+	public ItemManager(final int numberOfColas, final int numberOfCandies, final int numberOfChips) {
 		this.inventory.put(Item.COLA, numberOfColas);
 		this.inventory.put(Item.CANDY, numberOfCandies);
 		this.inventory.put(Item.CHIPS, numberOfChips);
@@ -18,9 +18,9 @@ public class ProductInventory {
 		return this.inventory.get(item).equals(Integer.valueOf(0));
 	}
 
-	public void dispense(final Item item, final ItemDispensor productDispensor) {
+	public void dispenseItemTo(final Item item, final ItemDispensor itemDispensor) {
 		this.inventory.put(item, this.inventory.get(item) - 1);
-		productDispensor.dispenseItem(item);
+		itemDispensor.dispenseItem(item);
 	}
 
 	public int numberOf(final Item item) {
