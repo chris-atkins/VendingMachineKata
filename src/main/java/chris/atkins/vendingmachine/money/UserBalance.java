@@ -1,6 +1,6 @@
 package chris.atkins.vendingmachine.money;
 
-public class UserBalance implements BalanceReader {
+public class UserBalance {
 
 	private double currentAmount = 0.0;
 
