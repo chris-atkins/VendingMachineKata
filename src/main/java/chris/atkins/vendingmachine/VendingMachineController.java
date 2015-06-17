@@ -81,10 +81,6 @@ public class VendingMachineController {
 	}
 
 	public void displayBalance() {
-		if (this.moneyHandler.doesNotHaveChange() && this.moneyHandler.currentUserBalance() == 0.0) {
-			this.display.updateExactChangeRequired();
-		} else {
-			this.display.updateBalanceStatus(this.moneyHandler.currentUserBalance());
-		}
+		this.display.updateBalanceStatus(this.moneyHandler.currentUserBalance(), this.moneyHandler.hasChangeForAQuarter());
 	}
 }

@@ -48,7 +48,7 @@ public class CoinManager {
 		return this.userBalance.currentBalance();
 	}
 
-	public boolean doesNotHaveChange() {
-		return this.coinBank.numberOf(Coin.NICKEL) < 1 || this.coinBank.numberOf(Coin.DIME) < 2;
+	public boolean hasChangeForAQuarter() {
+		return this.coinBank.numberOf(Coin.NICKEL) >= 1 && this.coinBank.numberOf(Coin.DIME) >= 2;
 	}
 }

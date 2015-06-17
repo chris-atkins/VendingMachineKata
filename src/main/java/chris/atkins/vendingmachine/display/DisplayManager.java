@@ -30,19 +30,18 @@ public class DisplayManager {
 		this.display.update(OUT_OF_STOCK);
 	}
 
-	public void updateExactChangeRequired() {
-		this.display.update(EXACT_CHANGE_REQUIRED);
+	public void updateBalanceStatus(final double balance, final boolean hasChangeForAQuarter) {
+		this.display.update(balanceMessage(balance, hasChangeForAQuarter));
 	}
 
-	public void updateBalanceStatus(final double balance) {
-		this.display.update(balanceMessage(balance));
+	private String balanceMessage(final double balance, final boolean hasChangeForAQuarter) {
+		if (balanceIsNotEmpty(balance)) {
+			return format(BALANCE, balance);
+		}
+		return hasChangeForAQuarter ? NO_BALANCE : EXACT_CHANGE_REQUIRED;
 	}
 
-	private String balanceMessage(final double balance) {
-		return balanceIsEmpty(balance) ? NO_BALANCE : format(BALANCE, balance);
-	}
-
-	private boolean balanceIsEmpty(final double balance) {
-		return balance == 0.0;
+	private boolean balanceIsNotEmpty(final double balance) {
+		return balance > 0.0;
 	}
 }
