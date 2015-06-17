@@ -13,6 +13,7 @@ import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import chris.atkins.vendingmachine.display.Display;
@@ -37,6 +38,31 @@ public class VendingMachineControllerTest {
 		public void insertCoinsDisplayedOnInitialization() throws Exception {
 			verify(this.display).update("INSERT COIN");
 		}
+	}
+
+	@RunWith(MockitoJUnitRunner.class)
+	public static class DisplayPollingTest {
+
+		@InjectMocks
+		private VendingMachineController vendingMachine;
+
+		@Mock
+		private Display display;
+
+		@Test
+		public void insertCoinsDisplayedWhenNoBalanceExists() throws Exception {
+			this.vendingMachine.userBalance.reset();
+			this.vendingMachine.updateStatusToDisplay();
+			verify(this.display, Mockito.atLeastOnce()).update("INSERT COIN");
+		}
+
+		@Test
+		public void balanceDisplayedWhenBalanceExists() throws Exception {
+			this.vendingMachine.userBalance.add(1.25);
+			this.vendingMachine.updateStatusToDisplay();
+			verify(this.display, Mockito.atLeastOnce()).update("BALANCE: $1.25");
+		}
+
 	}
 
 	@RunWith(MockitoJUnitRunner.class)
@@ -87,6 +113,7 @@ public class VendingMachineControllerTest {
 			this.vendingMachine.colaSelected();
 			assertThat(this.vendingMachine.userBalance.currentBalance(), equalTo(0.0));
 		}
+
 	}
 
 	@RunWith(MockitoJUnitRunner.class)

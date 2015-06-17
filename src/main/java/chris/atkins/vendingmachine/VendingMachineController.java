@@ -55,4 +55,12 @@ public class VendingMachineController {
 		this.userBalance.add(coin.value());
 		this.display.update(String.format("BALANCE: $%1.2f", this.userBalance.currentBalance()));
 	}
+
+	public void updateStatusToDisplay() {
+		if (this.userBalance.currentBalance() == 0.0) {
+			this.display.update("INSERT COIN");
+		} else {
+			this.display.update(String.format("BALANCE: $%1.2f", this.userBalance.currentBalance()));
+		}
+	}
 }
