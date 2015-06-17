@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="9" failures="0" name="chris.atkins.vendingmachine.money.UserBalanceTest" time="0" errors="0" skipped="0">
+<testsuite tests="6" failures="0" name="chris.atkins.vendingmachine.items.ItemManagerTest" time="0" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_11\jre\bin"/>
@@ -61,13 +61,10 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="chris.atkins.vendingmachine.money.UserBalanceTest" name="resetSetsBalanceToZero" time="0"/>
-  <testcase classname="chris.atkins.vendingmachine.money.UserBalanceTest" name="whenAmountIsAddedTheCurrentBalanceEqualsTheAmountAdded" time="0"/>
-  <testcase classname="chris.atkins.vendingmachine.money.UserBalanceTest" name="reportsIsEmptyFalseCorrectly" time="0"/>
-  <testcase classname="chris.atkins.vendingmachine.money.UserBalanceTest" name="whenMultipleAmountsAreAddedTheTotalIsTheSumOfThem" time="0"/>
-  <testcase classname="chris.atkins.vendingmachine.money.UserBalanceTest" name="currentBalanceRoundsUpToTwoDecimalPlacesWithReasonablePrecision" time="0"/>
-  <testcase classname="chris.atkins.vendingmachine.money.UserBalanceTest" name="reportsIsEmptyTrueCorrectly" time="0"/>
-  <testcase classname="chris.atkins.vendingmachine.money.UserBalanceTest" name="currentBalanceRoundsDownToTwoDecimalPlacesWithReasonablePrecision" time="0"/>
-  <testcase classname="chris.atkins.vendingmachine.money.UserBalanceTest" name="payRemovesCorrectAmountOfMoneyFromTotal" time="0"/>
-  <testcase classname="chris.atkins.vendingmachine.money.UserBalanceTest" name="startsWithZeroBalance" time="0"/>
+  <testcase classname="chris.atkins.vendingmachine.items.ItemManagerTest" name="outOfStockFalse" time="0"/>
+  <testcase classname="chris.atkins.vendingmachine.items.ItemManagerTest" name="setInventoryWorks" time="0"/>
+  <testcase classname="chris.atkins.vendingmachine.items.ItemManagerTest" name="dispensorIsCalledOnDispense" time="0"/>
+  <testcase classname="chris.atkins.vendingmachine.items.ItemManagerTest" name="initializesWithPassedValues" time="0"/>
+  <testcase classname="chris.atkins.vendingmachine.items.ItemManagerTest" name="dispenseDecrementsSingleItem" time="0"/>
+  <testcase classname="chris.atkins.vendingmachine.items.ItemManagerTest" name="outOfStockTrue" time="0"/>
 </testsuite>
