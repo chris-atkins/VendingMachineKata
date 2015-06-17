@@ -18,6 +18,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import chris.atkins.vendingmachine.display.Display;
 import chris.atkins.vendingmachine.items.Item;
 import chris.atkins.vendingmachine.money.Coin;
+import chris.atkins.vendingmachine.money.InsertedCoin;
 
 
 @RunWith(Enclosed.class)
@@ -82,6 +83,9 @@ public class VendingMachineControllerTest {
 		@Mock
 		private Display display;
 
+		@Mock
+		private CoinReturn coinReturn;
+
 		@Test
 		public void quarterInserted() throws Exception {
 			addCoin(QUARTER);
@@ -116,8 +120,16 @@ public class VendingMachineControllerTest {
 			verify(this.display).update("BALANCE: $0.40");
 		}
 
+		@Test
+		public void invalidCoinsRedispensed() throws Exception {
+			final InsertedCoin penny = new InsertedCoin(5, 300);
+
+			this.vendingMachine.coinInserted(penny);
+			verify(this.coinReturn).returnCoin(penny);
+		}
+
 		private void addCoin(final Coin coin) {
-			this.vendingMachine.insertCoin(coin.sizeInMM(), coin.weightInMg());
+			this.vendingMachine.coinInserted(new InsertedCoin(coin.sizeInMM(), coin.weightInMg()));
 		}
 	}
 
