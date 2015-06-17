@@ -1,6 +1,7 @@
 package chris.atkins.vendingmachine;
 
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,14 +26,22 @@ public class VendingMachineControllerTest {
 	private Display display;
 
 	@Test
-	public void whenColaIsSelectedItIsDispensed() throws Exception {
+	public void whenColaIsSelectedItIsDispensedWithExactChange() throws Exception {
+		this.vendingMachine.userBank.add(1.00);
 		this.vendingMachine.colaSelected();
 		verify(this.dispensor).dispenseItem(Item.COLA);
 	}
 
 	@Test
 	public void whenColaIsDispensedTheDisplayReadsThankYou() throws Exception {
+		this.vendingMachine.userBank.add(1.00);
 		this.vendingMachine.colaSelected();
 		verify(this.display).update("THANK YOU");
+	}
+
+	@Test
+	public void doesNotDispenseColaIfNotEnoughMoneyExists() throws Exception {
+		this.vendingMachine.colaSelected();
+		verifyZeroInteractions(this.dispensor);
 	}
 }
