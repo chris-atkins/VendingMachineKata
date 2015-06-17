@@ -36,16 +36,7 @@ public class VendingMachineController {
 	}
 
 	public void colaSelected() {
-		if (this.userBalance.currentBalance() < 1.00) {
-			this.display.notifyPrice(1.0);
-			return;
-		}
-
-		this.productDispensor.dispenseItem(COLA);
-		this.userBalance.pay(1.0);
-		this.coinBank.returnChange(this.userBalance.currentBalance(), this.coinReturn);
-		this.userBalance.reset();
-		this.display.thanksForThePurchase();
+		itemSelected(COLA);
 	}
 
 	public void candySelected() {
