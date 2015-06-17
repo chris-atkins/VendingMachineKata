@@ -1,5 +1,8 @@
 package chris.atkins.vendingmachine.money;
 
+import static chris.atkins.vendingmachine.StartingInventory.STARTING_DIME_INVENTORY;
+import static chris.atkins.vendingmachine.StartingInventory.STARTING_NICKEL_INVENTORY;
+import static chris.atkins.vendingmachine.StartingInventory.STARTING_QUARTER_INVENTORY;
 import chris.atkins.vendingmachine.items.Item;
 
 
@@ -10,11 +13,10 @@ public class CoinManager {
 	private final CoinReturn coinReturn;
 	private final CoinTypeIdentifier coinIdentifier;
 
-	public CoinManager(final UserBalance userBalance, final CoinReturn coinReturn, final int startingQuarterInventory,
-			final int startingDimeInventory, final int startingNickelInventory) {
+	public CoinManager(final UserBalance userBalance, final CoinReturn coinReturn) {
 		this.userBalance = userBalance;
 		this.coinReturn = coinReturn;
-		this.coinBank = new CoinBank(startingQuarterInventory, startingDimeInventory, startingNickelInventory);
+		this.coinBank = new CoinBank(STARTING_QUARTER_INVENTORY, STARTING_DIME_INVENTORY, STARTING_NICKEL_INVENTORY);
 		this.coinIdentifier = new CoinTypeIdentifier();
 	}
 

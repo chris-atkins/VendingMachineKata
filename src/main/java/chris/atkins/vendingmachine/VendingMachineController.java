@@ -1,8 +1,5 @@
 package chris.atkins.vendingmachine;
 
-import static chris.atkins.vendingmachine.StartingInventory.STARTING_DIME_INVENTORY;
-import static chris.atkins.vendingmachine.StartingInventory.STARTING_NICKEL_INVENTORY;
-import static chris.atkins.vendingmachine.StartingInventory.STARTING_QUARTER_INVENTORY;
 import static chris.atkins.vendingmachine.items.Item.CANDY;
 import static chris.atkins.vendingmachine.items.Item.CHIPS;
 import static chris.atkins.vendingmachine.items.Item.COLA;
@@ -30,8 +27,7 @@ public class VendingMachineController {
 		this.userBalance = new UserBalance();
 		this.display = new DisplayManager(display);
 		this.inventory = new ItemManager();
-		this.moneyHandler = new CoinManager(this.userBalance, coinReturn, STARTING_QUARTER_INVENTORY, STARTING_DIME_INVENTORY,
-				STARTING_NICKEL_INVENTORY);
+		this.moneyHandler = new CoinManager(this.userBalance, coinReturn);
 		initializeDisplay();
 	}
 
@@ -56,7 +52,6 @@ public class VendingMachineController {
 			this.display.outOfStock();
 			return;
 		}
-
 		if (this.moneyHandler.userDoesNotHaveEnoughMoneyToPurchase(item)) {
 			this.display.notifyPrice(item.price());
 			return;
