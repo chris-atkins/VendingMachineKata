@@ -68,7 +68,7 @@ public class VendingMachineControllerTest {
 		public void balanceDisplayedWhenBalanceExists() throws Exception {
 			this.vendingMachine.moneyHandler.addToUserBalance(1.25);
 			this.vendingMachine.displayBalance();
-			verify(this.display).update("BALANCE: $1.25");
+			verify(this.display).update("BALANCE $1.25");
 		}
 
 		@Test
@@ -302,17 +302,17 @@ public class VendingMachineControllerTest {
 		@Test
 		public void displayUpdatedToShowBalance() throws Exception {
 			addCoin(QUARTER);
-			verify(this.display).update("BALANCE: $0.25");
+			verify(this.display).update("BALANCE $0.25");
 		}
 
 		@Test
 		public void displayUpdatedToShowBalanceWithMultipleCoins() throws Exception {
 			addCoin(NICKEL);
-			verify(this.display).update("BALANCE: $0.05");
+			verify(this.display).update("BALANCE $0.05");
 			addCoin(DIME);
-			verify(this.display).update("BALANCE: $0.15");
+			verify(this.display).update("BALANCE $0.15");
 			addCoin(QUARTER);
-			verify(this.display).update("BALANCE: $0.40");
+			verify(this.display).update("BALANCE $0.40");
 		}
 
 		@Test

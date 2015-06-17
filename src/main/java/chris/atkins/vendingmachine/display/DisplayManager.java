@@ -9,7 +9,7 @@ public class DisplayManager {
 	private static final String NO_BALANCE = "INSERT COIN";
 	private static final String OUT_OF_STOCK = "SOLD OUT";
 	private static final String EXACT_CHANGE_REQUIRED = "EXACT CHANGE ONLY";
-	private static final String BALANCE = "BALANCE: $%1.2f";
+	private static final String BALANCE = "BALANCE $%1.2f";
 	private static final String PRICE = "PRICE $%1.2f";
 
 	private final Display display;
