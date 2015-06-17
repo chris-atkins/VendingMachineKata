@@ -52,14 +52,14 @@ public class VendingMachineControllerTest {
 		@Test
 		public void insertCoinsDisplayedWhenNoBalanceExists() throws Exception {
 			this.vendingMachine.userBalance.reset();
-			this.vendingMachine.updateStatusToDisplay();
+			this.vendingMachine.updateBalanceToDisplay();
 			verify(this.display, Mockito.atLeastOnce()).update("INSERT COIN");
 		}
 
 		@Test
 		public void balanceDisplayedWhenBalanceExists() throws Exception {
 			this.vendingMachine.userBalance.add(1.25);
-			this.vendingMachine.updateStatusToDisplay();
+			this.vendingMachine.updateBalanceToDisplay();
 			verify(this.display, Mockito.atLeastOnce()).update("BALANCE: $1.25");
 		}
 

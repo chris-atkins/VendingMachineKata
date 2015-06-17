@@ -30,7 +30,7 @@ public class VendingMachineController {
 	}
 
 	private void initializeDisplay() {
-		updateStatusToDisplay();
+		updateBalanceToDisplay();
 	}
 
 	public void colaSelected() {
@@ -54,10 +54,10 @@ public class VendingMachineController {
 		}
 
 		this.userBalance.add(coin.value());
-		updateStatusToDisplay();
+		updateBalanceToDisplay();
 	}
 
-	public void updateStatusToDisplay() {
+	public void updateBalanceToDisplay() {
 		this.display.updateBalanceStatus();
 	}
 }
