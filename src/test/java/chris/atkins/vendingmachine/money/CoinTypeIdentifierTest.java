@@ -14,25 +14,29 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public class CoinTypeIdentifierTest {
 
-	private CoinTypeIdentifier coinIdentifier = new CoinTypeIdentifier();
+	private final CoinTypeIdentifier coinIdentifier = new CoinTypeIdentifier();
+	private final InsertedCoin quarterSpec = new InsertedCoin(QUARTER.sizeInMM(), QUARTER.weightInMg());
+	private final InsertedCoin dimeSpec = new InsertedCoin(DIME.sizeInMM(), DIME.weightInMg());
+	private final InsertedCoin nickelSpec = new InsertedCoin(NICKEL.sizeInMM(), NICKEL.weightInMg());
+	private final InsertedCoin invalidSpec = new InsertedCoin(42, 23);
 
 	@Test
 	public void acceptsQuarters() throws Exception {
-		assertThat(this.coinIdentifier.identify(QUARTER.sizeInMM(), QUARTER.weightInMg()), equalTo(QUARTER));
+		assertThat(this.coinIdentifier.identify(this.quarterSpec), equalTo(QUARTER));
 	}
 
 	@Test
 	public void acceptsDimes() throws Exception {
-		assertThat(this.coinIdentifier.identify(DIME.sizeInMM(), DIME.weightInMg()), equalTo(DIME));
+		assertThat(this.coinIdentifier.identify(this.dimeSpec), equalTo(DIME));
 	}
 
 	@Test
 	public void acceptsNickels() throws Exception {
-		assertThat(this.coinIdentifier.identify(NICKEL.sizeInMM(), NICKEL.weightInMg()), equalTo(NICKEL));
+		assertThat(this.coinIdentifier.identify(this.nickelSpec), equalTo(NICKEL));
 	}
 
 	@Test
 	public void unknownCoins() throws Exception {
-		assertThat(this.coinIdentifier.identify(42, 23), equalTo(Coin.INVALID_COIN));
+		assertThat(this.coinIdentifier.identify(this.invalidSpec), equalTo(Coin.INVALID_COIN));
 	}
 }

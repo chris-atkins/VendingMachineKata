@@ -73,7 +73,7 @@ public class VendingMachineController {
 	}
 
 	public void coinInserted(final InsertedCoin insertedCoin) {
-		final Coin coin = this.coinIdentifier.identify(insertedCoin.sizeInMM, insertedCoin.weightInMg);
+		final Coin coin = this.coinIdentifier.identify(insertedCoin);
 		if (coin == Coin.INVALID_COIN) {
 			this.coinReturn.returnCoin(insertedCoin);
 			return;

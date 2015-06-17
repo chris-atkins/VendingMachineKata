@@ -2,10 +2,10 @@ package chris.atkins.vendingmachine.money;
 
 public class InsertedCoin {
 
-	public int sizeInMM;
-	public int weightInMg;
+	final int sizeInMM;
+	final int weightInMg;
 
-	public InsertedCoin(int sizeInMM, int weightInMg) {
+	public InsertedCoin(final int sizeInMM, final int weightInMg) {
 		this.sizeInMM = sizeInMM;
 		this.weightInMg = weightInMg;
 	}

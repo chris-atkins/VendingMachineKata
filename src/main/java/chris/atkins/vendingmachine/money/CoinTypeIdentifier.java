@@ -9,9 +9,9 @@ public class CoinTypeIdentifier {
 
 	private static Coin[] validCoins = new Coin[] { QUARTER, DIME, NICKEL };
 
-	public Coin identify(final int sizeInMM, final int weightInMg) {
+	public Coin identify(final InsertedCoin insertedCoin) {
 		for (final Coin coin : validCoins) {
-			if (coin.matchesSpecs(sizeInMM, weightInMg)) {
+			if (coin.matchesSpecs(insertedCoin.sizeInMM, insertedCoin.weightInMg)) {
 				return coin;
 			}
 		}
