@@ -34,11 +34,11 @@ public class CoinBank {
 		}
 	}
 
-	public int numberOf(final Coin coin) {
+	int numberOf(final Coin coin) {
 		return this.coins.get(coin);
 	}
 
-	public void add(final Coin coin) {
+	void add(final Coin coin) {
 		this.coins.put(coin, this.coins.get(coin) + 1);
 	}
 

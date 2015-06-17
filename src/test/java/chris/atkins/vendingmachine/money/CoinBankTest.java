@@ -69,7 +69,7 @@ public class CoinBankTest {
 	}
 
 	@Test
-	public void changeDecreasesTheCountCorrectly() throws Exception {
+	public void givingChangeDecreasesTheCountCorrectly() throws Exception {
 		this.bank.returnChange(0.45, this.coinReturn);
 		verify(this.coinReturn).returnCoin(QUARTER);
 		verify(this.coinReturn, times(2)).returnCoin(DIME);
