@@ -228,4 +228,29 @@ public class VendingMachineControllerTest {
 			assertThat(this.vendingMachine.userBalance.currentBalance(), equalTo(0.0));
 		}
 	}
+
+	@RunWith(MockitoJUnitRunner.class)
+	public static class BalanceReturnRequestedTest {
+
+		@InjectMocks
+		private VendingMachineController vendingMachine;
+
+		@Mock
+		private ProductDispensor dispensor;
+
+		@Mock
+		private CoinReturn coinReturn;
+
+		@Mock
+		private Display display;
+
+		@Test
+		public void returnsNickelAsChange() throws Exception {
+			this.vendingMachine.userBalance.add(0.4);
+			this.vendingMachine.returnCoinBalance();
+			verify(this.coinReturn).returnCoin(QUARTER);
+			verify(this.coinReturn).returnCoin(DIME);
+			verify(this.coinReturn).returnCoin(NICKEL);
+		}
+	}
 }

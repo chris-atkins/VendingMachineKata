@@ -60,4 +60,8 @@ public class VendingMachineController {
 	public void updateBalanceToDisplay() {
 		this.display.updateBalanceStatus();
 	}
+
+	public void returnCoinBalance() {
+		this.coinBank.returnChange(this.userBalance.currentBalance(), this.coinReturn);
+	}
 }
