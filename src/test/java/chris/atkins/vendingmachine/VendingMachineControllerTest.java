@@ -17,6 +17,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import chris.atkins.vendingmachine.display.Display;
 import chris.atkins.vendingmachine.items.Item;
+import chris.atkins.vendingmachine.money.Coin;
 
 
 @RunWith(Enclosed.class)
@@ -80,26 +81,40 @@ public class VendingMachineControllerTest {
 
 		@Test
 		public void quarterInserted() throws Exception {
-			this.vendingMachine.insertCoin(QUARTER.sizeInMM(), QUARTER.weightInMg());
+			addCoin(QUARTER);
 			assertThat(this.vendingMachine.userBank.currentBalance(), equalTo(0.25));
 		}
 
 		@Test
 		public void dimeInserted() throws Exception {
-			this.vendingMachine.insertCoin(DIME.sizeInMM(), DIME.weightInMg());
+			addCoin(DIME);
 			assertThat(this.vendingMachine.userBank.currentBalance(), equalTo(0.1));
 		}
 
 		@Test
 		public void nickelInserted() throws Exception {
-			this.vendingMachine.insertCoin(NICKEL.sizeInMM(), NICKEL.weightInMg());
+			addCoin(NICKEL);
 			assertThat(this.vendingMachine.userBank.currentBalance(), equalTo(0.05));
 		}
 
 		@Test
 		public void displayUpdatedToShowBalance() throws Exception {
-			this.vendingMachine.insertCoin(QUARTER.sizeInMM(), QUARTER.weightInMg());
+			addCoin(QUARTER);
 			verify(this.display).update("BALANCE: $0.25");
+		}
+
+		@Test
+		public void displayUpdatedToShowBalanceWithMultipleCoins() throws Exception {
+			addCoin(NICKEL);
+			verify(this.display).update("BALANCE: $0.05");
+			addCoin(DIME);
+			verify(this.display).update("BALANCE: $0.15");
+			addCoin(QUARTER);
+			verify(this.display).update("BALANCE: $0.40");
+		}
+
+		private void addCoin(final Coin coin) {
+			this.vendingMachine.insertCoin(coin.sizeInMM(), coin.weightInMg());
 		}
 	}
 
