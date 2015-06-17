@@ -1,9 +1,11 @@
 package chris.atkins.vendingmachine.money;
 
 import static chris.atkins.vendingmachine.money.Coin.DIME;
+import static chris.atkins.vendingmachine.money.Coin.INVALID_COIN;
 import static chris.atkins.vendingmachine.money.Coin.NICKEL;
 import static chris.atkins.vendingmachine.money.Coin.QUARTER;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
@@ -57,5 +59,20 @@ public class CoinTest {
 	@Test
 	public void nickelWeight() throws Exception {
 		assertThat(NICKEL.weightInMg(), equalTo(500));
+	}
+
+	@Test
+	public void invalidCoinHasNoValue() throws Exception {
+		assertThat(INVALID_COIN.value(), equalTo(0.0));
+	}
+
+	@Test
+	public void invalidCoinHasNullSize() throws Exception {
+		assertThat(INVALID_COIN.sizeInMM(), nullValue());
+	}
+
+	@Test
+	public void invalidCoinHasNullWeight() throws Exception {
+		assertThat(INVALID_COIN.weightInMg(), nullValue());
 	}
 }
