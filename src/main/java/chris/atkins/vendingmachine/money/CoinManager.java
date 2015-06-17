@@ -14,15 +14,15 @@ public class CoinManager {
 	private final CoinTypeIdentifier coinIdentifier;
 
 	public CoinManager(final CoinReturn coinReturn) {
-		this.userBalance = new UserBalance();
 		this.coinReturn = coinReturn;
-		this.coinBank = new CoinBank(STARTING_QUARTER_INVENTORY, STARTING_DIME_INVENTORY, STARTING_NICKEL_INVENTORY);
+		this.userBalance = new UserBalance();
 		this.coinIdentifier = new CoinTypeIdentifier();
+		this.coinBank = new CoinBank(STARTING_QUARTER_INVENTORY, STARTING_DIME_INVENTORY, STARTING_NICKEL_INVENTORY);
 	}
 
-	public void processPurchase(final Item item) {
+	public void purchaseItemAndReturnChange(final Item item) {
 		this.userBalance.pay(item.price());
-		this.coinBank.returnChange(this.userBalance.currentBalance(), this.coinReturn);
+		this.coinBank.returnChange(getCurrentBalance(), this.coinReturn);
 		this.userBalance.reset();
 	}
 
@@ -34,20 +34,24 @@ public class CoinManager {
 		}
 
 		this.coinBank.add(coin);
-		this.userBalance.add(coin.value());
+		addToUserBalance(coin.value());
 	}
 
 	public void returnCoins() {
-		this.coinBank.returnChange(this.userBalance.currentBalance(), this.coinReturn);
-		this.userBalance.reset();
+		this.coinBank.returnChange(getCurrentBalance(), this.coinReturn);
+		resetUserBalance();
+	}
+
+	private double getCurrentBalance() {
+		return this.userBalance.currentBalance();
 	}
 
 	public boolean userDoesNotHaveEnoughMoneyToPurchase(final Item item) {
-		return this.userBalance.currentBalance() < item.price();
+		return getCurrentBalance() < item.price();
 	}
 
 	public double currentUserBalance() {
-		return this.userBalance.currentBalance();
+		return getCurrentBalance();
 	}
 
 	public boolean hasChangeForAQuarter() {

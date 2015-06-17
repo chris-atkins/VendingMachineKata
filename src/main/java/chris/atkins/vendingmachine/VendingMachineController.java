@@ -52,8 +52,8 @@ public final class VendingMachineController {
 			return;
 		}
 
+		this.moneyHandler.purchaseItemAndReturnChange(item);
 		this.inventory.dispenseItem(item);
-		this.moneyHandler.processPurchase(item);
 		this.display.thanksForThePurchase();
 	}
 
@@ -62,7 +62,7 @@ public final class VendingMachineController {
 		displayBalance();
 	}
 
-	public void returnCoinBalance() {
+	public void returnCoinsSelected() {
 		this.moneyHandler.returnCoins();
 		displayBalance();
 	}

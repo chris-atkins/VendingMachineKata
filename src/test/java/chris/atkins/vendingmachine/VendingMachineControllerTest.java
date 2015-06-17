@@ -74,7 +74,7 @@ public class VendingMachineControllerTest {
 		@Test
 		public void displaysCorrectTextWhenExactChangeIsRequired() throws Exception {
 			addToUserBalance(this.vendingMachine, 80);
-			this.vendingMachine.returnCoinBalance();
+			this.vendingMachine.returnCoinsSelected();
 			this.vendingMachine.displayBalance();
 			verify(this.display, atLeastOnce()).update("EXACT CHANGE ONLY");
 		}
@@ -396,7 +396,7 @@ public class VendingMachineControllerTest {
 		@Test
 		public void returnsAllBalanceWhenRequested() throws Exception {
 			addToUserBalance(this.vendingMachine, 0.4);
-			this.vendingMachine.returnCoinBalance();
+			this.vendingMachine.returnCoinsSelected();
 			verify(this.coinReturn).returnCoin(QUARTER);
 			verify(this.coinReturn).returnCoin(DIME);
 			verify(this.coinReturn).returnCoin(NICKEL);
@@ -405,7 +405,7 @@ public class VendingMachineControllerTest {
 		@Test
 		public void returnCoinsDisplaysStatusMessageWhenFinished() throws Exception {
 			addToUserBalance(this.vendingMachine, 0.4);
-			this.vendingMachine.returnCoinBalance();
+			this.vendingMachine.returnCoinsSelected();
 			verify(this.display, atLeastOnce()).update("EXACT CHANGE ONLY");
 		}
 	}
