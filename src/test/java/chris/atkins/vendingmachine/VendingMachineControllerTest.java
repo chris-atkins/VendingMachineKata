@@ -40,21 +40,21 @@ public class VendingMachineControllerTest {
 
 		@Test
 		public void whenColaIsSelectedItIsDispensedWithExactChange() throws Exception {
-			this.vendingMachine.userBank.add(1.00);
+			this.vendingMachine.userBalance.add(1.00);
 			this.vendingMachine.colaSelected();
 			verify(this.dispensor).dispenseItem(Item.COLA);
 		}
 
 		@Test
 		public void whenColaIsDispensedTheDisplayReadsThankYou() throws Exception {
-			this.vendingMachine.userBank.add(1.00);
+			this.vendingMachine.userBalance.add(1.00);
 			this.vendingMachine.colaSelected();
 			verify(this.display).update("THANK YOU");
 		}
 
 		@Test
 		public void doesNotDispenseColaIfNotEnoughMoneyExists() throws Exception {
-			this.vendingMachine.userBank.add(0.99);
+			this.vendingMachine.userBalance.add(0.99);
 			this.vendingMachine.colaSelected();
 			verifyZeroInteractions(this.dispensor);
 		}
@@ -66,10 +66,10 @@ public class VendingMachineControllerTest {
 		}
 
 		@Test
-		public void userPaysForColaFromUserBank() throws Exception {
-			this.vendingMachine.userBank.add(1.00);
+		public void userPaysForColaFromUserBalance() throws Exception {
+			this.vendingMachine.userBalance.add(1.00);
 			this.vendingMachine.colaSelected();
-			assertThat(this.vendingMachine.userBank.currentBalance(), equalTo(0.0));
+			assertThat(this.vendingMachine.userBalance.currentBalance(), equalTo(0.0));
 		}
 	}
 
@@ -85,19 +85,19 @@ public class VendingMachineControllerTest {
 		@Test
 		public void quarterInserted() throws Exception {
 			addCoin(QUARTER);
-			assertThat(this.vendingMachine.userBank.currentBalance(), equalTo(0.25));
+			assertThat(this.vendingMachine.userBalance.currentBalance(), equalTo(0.25));
 		}
 
 		@Test
 		public void dimeInserted() throws Exception {
 			addCoin(DIME);
-			assertThat(this.vendingMachine.userBank.currentBalance(), equalTo(0.1));
+			assertThat(this.vendingMachine.userBalance.currentBalance(), equalTo(0.1));
 		}
 
 		@Test
 		public void nickelInserted() throws Exception {
 			addCoin(NICKEL);
-			assertThat(this.vendingMachine.userBank.currentBalance(), equalTo(0.05));
+			assertThat(this.vendingMachine.userBalance.currentBalance(), equalTo(0.05));
 		}
 
 		@Test
@@ -138,14 +138,14 @@ public class VendingMachineControllerTest {
 
 		@Test
 		public void returnsNickelAsChange() throws Exception {
-			this.vendingMachine.userBank.add(1.05);
+			this.vendingMachine.userBalance.add(1.05);
 			this.vendingMachine.colaSelected();
 			verify(this.coinReturn).returnCoin(NICKEL);
 		}
 
 		@Test
 		public void returnsDimeAsChange() throws Exception {
-			this.vendingMachine.userBank.add(1.10);
+			this.vendingMachine.userBalance.add(1.10);
 			this.vendingMachine.colaSelected();
 			verify(this.coinReturn).returnCoin(DIME);
 

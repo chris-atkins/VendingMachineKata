@@ -12,7 +12,7 @@ public class VendingMachineController {
 
 	private final ProductDispensor productDispensor;
 	private final Display display;
-	final UserBalance userBank;
+	final UserBalance userBalance;
 	private final CoinTypeIdentifier coinIdentifier;
 	private final CoinReturn coinReturn;
 	private final CoinBank coinBank;
@@ -21,26 +21,26 @@ public class VendingMachineController {
 		this.productDispensor = productDispensor;
 		this.display = display;
 		this.coinReturn = coinReturn;
-		this.userBank = new UserBalance();
+		this.userBalance = new UserBalance();
 		this.coinIdentifier = new CoinTypeIdentifier();
 		this.coinBank = new CoinBank();
 	}
 
 	public void colaSelected() {
-		if (this.userBank.currentBalance() < 1.00) {
+		if (this.userBalance.currentBalance() < 1.00) {
 			this.display.update("PRICE $1.00");
 			return;
 		}
 
 		this.productDispensor.dispenseItem(COLA);
-		this.userBank.pay(1.0);
-		this.coinBank.returnChange(this.userBank.currentBalance(), this.coinReturn);
+		this.userBalance.pay(1.0);
+		this.coinBank.returnChange(this.userBalance.currentBalance(), this.coinReturn);
 		this.display.update("THANK YOU");
 	}
 
 	public void insertCoin(final int sizeInMM, final int weightInMg) {
 		final Coin coin = this.coinIdentifier.identify(sizeInMM, weightInMg);
-		this.userBank.add(coin.value());
-		this.display.update(String.format("BALANCE: $%1.2f", this.userBank.currentBalance()));
+		this.userBalance.add(coin.value());
+		this.display.update(String.format("BALANCE: $%1.2f", this.userBalance.currentBalance()));
 	}
 }
