@@ -46,12 +46,12 @@ public class CoinManager {
 		return currentUserBalance() < item.price();
 	}
 
-	public double currentUserBalance() {
-		return this.userBalance.currentBalance();
-	}
-
 	public boolean hasChangeForAQuarter() {
 		return this.coinBank.numberOf(Coin.NICKEL) >= 1 && this.coinBank.numberOf(Coin.DIME) >= 2;
+	}
+
+	public double currentUserBalance() {
+		return this.userBalance.currentBalance();
 	}
 
 	public void addToUserBalance(final double amount) {

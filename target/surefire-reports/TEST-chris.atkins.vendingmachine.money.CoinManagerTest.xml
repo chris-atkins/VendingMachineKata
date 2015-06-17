@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="8" failures="0" name="chris.atkins.vendingmachine.money.CoinBankTest" time="0.01" errors="0" skipped="0">
+<testsuite tests="13" failures="0" name="chris.atkins.vendingmachine.money.CoinManagerTest" time="0.03" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_11\jre\bin"/>
@@ -61,12 +61,17 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="chris.atkins.vendingmachine.money.CoinBankTest" name="returnsAQuarter" time="0"/>
-  <testcase classname="chris.atkins.vendingmachine.money.CoinBankTest" name="changeDecreasesTheCountCorrectly" time="0"/>
-  <testcase classname="chris.atkins.vendingmachine.money.CoinBankTest" name="returnsMultipleCoins" time="0.01"/>
-  <testcase classname="chris.atkins.vendingmachine.money.CoinBankTest" name="doesntUseCoinsItDoesntHaveForChange" time="0"/>
-  <testcase classname="chris.atkins.vendingmachine.money.CoinBankTest" name="returnsBestDenominations" time="0"/>
-  <testcase classname="chris.atkins.vendingmachine.money.CoinBankTest" name="returnsANickel" time="0"/>
-  <testcase classname="chris.atkins.vendingmachine.money.CoinBankTest" name="returnsADime" time="0"/>
-  <testcase classname="chris.atkins.vendingmachine.money.CoinBankTest" name="addIncreasesCountByOne" time="0"/>
+  <testcase classname="chris.atkins.vendingmachine.money.CoinManagerTest" name="rejectedCoinsDontChangeTheUserBalance" time="0.03"/>
+  <testcase classname="chris.atkins.vendingmachine.money.CoinManagerTest" name="userHasEnoughMoneyIsFalseForLessMoney" time="0"/>
+  <testcase classname="chris.atkins.vendingmachine.money.CoinManagerTest" name="validCoinsAreAddedToTheCoinBank" time="0"/>
+  <testcase classname="chris.atkins.vendingmachine.money.CoinManagerTest" name="validCoinsIncreaseTheUserBalance" time="0"/>
+  <testcase classname="chris.atkins.vendingmachine.money.CoinManagerTest" name="purchaseItemsDelegatesChangeWithCorrectAmount" time="0"/>
+  <testcase classname="chris.atkins.vendingmachine.money.CoinManagerTest" name="hasChangeForAQuarterIsTrueOnlyWithAtLeast2DimesAnd1Nickel" time="0"/>
+  <testcase classname="chris.atkins.vendingmachine.money.CoinManagerTest" name="returnCoinsReturnsTheWholeCurrentUserBalance" time="0"/>
+  <testcase classname="chris.atkins.vendingmachine.money.CoinManagerTest" name="rejectedCoinsAreNotAddedToTheCoinBank" time="0"/>
+  <testcase classname="chris.atkins.vendingmachine.money.CoinManagerTest" name="userHasEnoughMoneyWithExactChange" time="0"/>
+  <testcase classname="chris.atkins.vendingmachine.money.CoinManagerTest" name="userHasEnoughMoneyIsTrueForExtraMoney" time="0"/>
+  <testcase classname="chris.atkins.vendingmachine.money.CoinManagerTest" name="coinInsertedRejectsCoinsThatAreInvalid" time="0"/>
+  <testcase classname="chris.atkins.vendingmachine.money.CoinManagerTest" name="purchaseItemsResetsUserBalance" time="0"/>
+  <testcase classname="chris.atkins.vendingmachine.money.CoinManagerTest" name="returnCoinsResetsUserBalanceToZero" time="0"/>
 </testsuite>

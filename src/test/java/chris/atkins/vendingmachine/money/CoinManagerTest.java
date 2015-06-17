@@ -1,6 +1,8 @@
 package chris.atkins.vendingmachine.money;
 
+import static chris.atkins.vendingmachine.money.Coin.DIME;
 import static chris.atkins.vendingmachine.money.Coin.INVALID_COIN;
+import static chris.atkins.vendingmachine.money.Coin.NICKEL;
 import static chris.atkins.vendingmachine.money.Coin.QUARTER;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -43,6 +45,9 @@ public class CoinManagerTest {
 	private InsertedCoin coin;
 
 	private final double startingUserBalance = 0.85;
+	private final InsertedCoin quarterCoin = new InsertedCoin(QUARTER.sizeInMM(), QUARTER.weightInMg());
+	private final InsertedCoin dimeCoin = new InsertedCoin(DIME.sizeInMM(), DIME.weightInMg());
+	private final InsertedCoin nickelCoin = new InsertedCoin(NICKEL.sizeInMM(), NICKEL.weightInMg());
 
 	@Before
 	public void init() {
@@ -132,6 +137,25 @@ public class CoinManagerTest {
 		assertThat(result, is(true));
 	}
 
+	@Test
+	public void hasChangeForAQuarterIsTrueOnlyWithAtLeast2DimesAnd1Nickel() throws Exception {
+		setZeroCoinsInCoinBank();
+		assertThat(this.coinManager.hasChangeForAQuarter(), is(false));
+
+		this.coinManager.coinInserted(this.quarterCoin);
+		assertThat(this.coinManager.hasChangeForAQuarter(), is(false));
+
+		this.coinManager.coinInserted(this.dimeCoin);
+		assertThat(this.coinManager.hasChangeForAQuarter(), is(false));
+
+		this.coinManager.coinInserted(this.nickelCoin);
+		assertThat(this.coinManager.hasChangeForAQuarter(), is(false));
+
+		this.coinManager.coinInserted(this.dimeCoin);
+		assertThat(this.coinManager.hasChangeForAQuarter(), is(true));
+
+	}
+
 	private void setupInvalidCoinCase() throws Exception {
 		injectMockCoinIdentifier();
 		injectMockCoinBank();
@@ -147,6 +171,11 @@ public class CoinManagerTest {
 	private void setUserBalance(final double amount) {
 		this.coinManager.resetUserBalance();
 		this.coinManager.addToUserBalance(amount);
+	}
+
+	private void setZeroCoinsInCoinBank() {
+		this.setUserBalance(0.80);
+		this.coinManager.returnCoins();
 	}
 
 	private void injectMockCoinBank() throws Exception {

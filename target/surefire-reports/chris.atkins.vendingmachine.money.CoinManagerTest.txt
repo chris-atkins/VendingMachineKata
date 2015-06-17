@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
-Test set: chris.atkins.vendingmachine.VendingMachineControllerTest
+Test set: chris.atkins.vendingmachine.money.CoinManagerTest
 -------------------------------------------------------------------------------
-Tests run: 36, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.041 sec
+Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.07 sec
