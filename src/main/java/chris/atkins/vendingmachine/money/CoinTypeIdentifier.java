@@ -15,8 +15,6 @@ public class CoinTypeIdentifier {
 				return coin;
 			}
 		}
-
 		return Coin.INVALID_COIN;
 	}
-
 }

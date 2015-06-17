@@ -148,7 +148,6 @@ public class VendingMachineControllerTest {
 			this.vendingMachine.userBalance.add(1.10);
 			this.vendingMachine.colaSelected();
 			verify(this.coinReturn).returnCoin(DIME);
-
 		}
 	}
 }
