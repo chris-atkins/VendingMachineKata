@@ -19,7 +19,6 @@ public class VendingMachineController {
 
 	private final ItemDispensor itemDispensor;
 	private final DisplayManager display;
-	private final CoinReturn coinReturn;
 	private final CoinBank coinBank;
 	final UserBalance userBalance;
 	final ItemManager inventory;
@@ -27,7 +26,6 @@ public class VendingMachineController {
 
 	public VendingMachineController(final ItemDispensor itemDispensor, final Display display, final CoinReturn coinReturn) {
 		this.itemDispensor = itemDispensor;
-		this.coinReturn = coinReturn;
 		this.userBalance = new UserBalance();
 		this.coinBank = new CoinBank();
 		this.display = new DisplayManager(display, this.userBalance);
@@ -78,8 +76,7 @@ public class VendingMachineController {
 	}
 
 	public void returnCoinBalance() {
-		this.coinBank.returnChange(this.userBalance.currentBalance(), this.coinReturn);
-		this.userBalance.reset();
+		this.moneyHandler.returnUsersBalance();
 		updateBalanceToDisplay();
 	}
 }

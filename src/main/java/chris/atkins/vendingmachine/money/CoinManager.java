@@ -33,4 +33,9 @@ public class CoinManager {
 		this.userBalance.add(coin.value());
 	}
 
+	public void returnUsersBalance() {
+		this.coinBank.returnChange(this.userBalance.currentBalance(), this.coinReturn);
+		this.userBalance.reset();
+	}
+
 }
