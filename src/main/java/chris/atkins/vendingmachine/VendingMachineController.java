@@ -16,6 +16,10 @@ import chris.atkins.vendingmachine.money.UserBalance;
 
 public class VendingMachineController {
 
+	private static final int STARTING_COLA_INVENTORY = 2;
+	private static final int STARTING_CANDY_INVENTORY = 2;
+	private static final int STARTING_CHIPS_INVENTORY = 2;
+
 	private final ItemDispensor itemDispensor;
 	private final DisplayManager display;
 	final UserBalance userBalance;
@@ -26,7 +30,7 @@ public class VendingMachineController {
 		this.itemDispensor = itemDispensor;
 		this.userBalance = new UserBalance();
 		this.display = new DisplayManager(display);
-		this.inventory = new ItemManager(2, 2, 2);
+		this.inventory = new ItemManager(STARTING_COLA_INVENTORY, STARTING_CANDY_INVENTORY, STARTING_CHIPS_INVENTORY);
 		this.moneyHandler = new CoinManager(this.userBalance, coinReturn);
 		initializeDisplay();
 	}
