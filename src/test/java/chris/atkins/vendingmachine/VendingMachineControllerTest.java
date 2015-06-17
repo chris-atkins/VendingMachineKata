@@ -5,6 +5,7 @@ import static chris.atkins.vendingmachine.money.Coin.NICKEL;
 import static chris.atkins.vendingmachine.money.Coin.QUARTER;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
@@ -236,21 +237,25 @@ public class VendingMachineControllerTest {
 		private VendingMachineController vendingMachine;
 
 		@Mock
-		private ProductDispensor dispensor;
-
-		@Mock
 		private CoinReturn coinReturn;
 
 		@Mock
 		private Display display;
 
 		@Test
-		public void returnsNickelAsChange() throws Exception {
+		public void returnsAllBalanceWhenRequested() throws Exception {
 			this.vendingMachine.userBalance.add(0.4);
 			this.vendingMachine.returnCoinBalance();
 			verify(this.coinReturn).returnCoin(QUARTER);
 			verify(this.coinReturn).returnCoin(DIME);
 			verify(this.coinReturn).returnCoin(NICKEL);
+		}
+
+		@Test
+		public void returnCoinsDisplaysInsertCoinWhenFinished() throws Exception {
+			this.vendingMachine.userBalance.add(0.4);
+			this.vendingMachine.returnCoinBalance();
+			verify(this.display, times(2)).update("INSERT COIN");  // once for initialization, once for balance return
 		}
 	}
 }
