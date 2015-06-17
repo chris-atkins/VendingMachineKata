@@ -96,6 +96,35 @@ public class CoinManagerTest {
 		verify(this.coinBank).add(QUARTER);
 	}
 
+	@Test
+	public void returnCoinsReturnsTheWholeCurrentUserBalance() throws Exception {
+		injectMockCoinBank();
+		this.coinManager.returnCoins();
+		verify(this.coinBank).returnChange(this.startingUserBalance, this.coinReturn);
+	}
+
+	@Test
+	public void returnCoinsResetsUserBalanceToZero() throws Exception {
+		injectMockCoinBank();
+		this.coinManager.returnCoins();
+		assertThat(this.coinManager.currentUserBalance(), equalTo(0.0));
+	}
+
+	@Test
+	public void userHasEnoughMoneyIsTrueForExactChange() throws Exception {
+
+	}
+
+	@Test
+	public void userHasEnoughMoneyIsTrueForExtraMoney() throws Exception {
+
+	}
+
+	@Test
+	public void userHasEnoughMoneyIsFalseForLessMoney() throws Exception {
+
+	}
+
 	private void setupInvalidCoinCase() throws Exception {
 		injectMockCoinIdentifier();
 		injectMockCoinBank();
