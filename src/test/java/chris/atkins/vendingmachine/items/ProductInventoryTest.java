@@ -9,11 +9,16 @@ import static org.hamcrest.Matchers.is;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
 
 
-@RunWith(JUnit4.class)
+@RunWith(MockitoJUnitRunner.class)
 public class ProductInventoryTest {
+
+	@Mock
+	private ProductDispensor dispensor;
 
 	@Test
 	public void initializesWithPassedValues() throws Exception {
@@ -38,10 +43,17 @@ public class ProductInventoryTest {
 	@Test
 	public void dispenseDecrementsSingleItem() throws Exception {
 		final ProductInventory inventory = new ProductInventory(1, 2, 3);
-		inventory.dispense(CHIPS);
+		inventory.dispense(CHIPS, this.dispensor);
 		assertThat(inventory.numberOf(COLA), equalTo(1));
 		assertThat(inventory.numberOf(CANDY), equalTo(2));
 		assertThat(inventory.numberOf(CHIPS), equalTo(2));
+	}
+
+	@Test
+	public void dispensorIsCalledOnDispense() throws Exception {
+		final ProductInventory inventory = new ProductInventory(1, 2, 3);
+		inventory.dispense(CANDY, this.dispensor);
+		Mockito.verify(this.dispensor).dispenseItem(CANDY);
 	}
 
 	@Test

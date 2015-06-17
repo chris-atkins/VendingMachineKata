@@ -63,8 +63,7 @@ public class VendingMachineController {
 			return;
 		}
 
-		this.productDispensor.dispenseItem(item);
-		this.inventory.dispense(item);
+		this.inventory.dispense(item, this.productDispensor);
 
 		this.userBalance.pay(item.price());
 		this.coinBank.returnChange(this.userBalance.currentBalance(), this.coinReturn);

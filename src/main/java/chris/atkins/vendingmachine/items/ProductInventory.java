@@ -18,8 +18,9 @@ public class ProductInventory {
 		return this.inventory.get(item).equals(Integer.valueOf(0));
 	}
 
-	public void dispense(final Item item) {
+	public void dispense(final Item item, final ProductDispensor productDispensor) {
 		this.inventory.put(item, this.inventory.get(item) - 1);
+		productDispensor.dispenseItem(item);
 	}
 
 	public int numberOf(final Item item) {
