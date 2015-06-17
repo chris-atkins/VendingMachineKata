@@ -33,12 +33,16 @@ public class CoinManager {
 		this.userBalance.add(coin.value());
 	}
 
-	public void returnUsersBalance() {
+	public void returnCoins() {
 		this.coinBank.returnChange(this.userBalance.currentBalance(), this.coinReturn);
 		this.userBalance.reset();
 	}
 
 	public boolean userDoesNotHaveEnoughMoneyToPurchase(final Item item) {
 		return this.userBalance.currentBalance() < item.price();
+	}
+
+	public double currentUserBalance() {
+		return this.userBalance.currentBalance();
 	}
 }

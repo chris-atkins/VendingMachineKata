@@ -1,7 +1,6 @@
 package chris.atkins.vendingmachine.display;
 
 import static java.lang.String.format;
-import chris.atkins.vendingmachine.money.BalanceReader;
 
 
 public class DisplayManager {
@@ -13,11 +12,9 @@ public class DisplayManager {
 	private static final String PRICE = "PRICE $%1.2f";
 
 	private final Display display;
-	private final BalanceReader balance;
 
-	public DisplayManager(final Display display, final BalanceReader balance) {
+	public DisplayManager(final Display display) {
 		this.display = display;
-		this.balance = balance;
 	}
 
 	public void notifyPrice(final double price) {
@@ -32,12 +29,15 @@ public class DisplayManager {
 		this.display.update(OUT_OF_STOCK);
 	}
 
-	public void updateBalanceStatus() {
-		final String message = this.balance.isEmpty() ? NO_BALANCE : balance();
-		this.display.update(message);
+	public void updateBalanceStatus(final double balance) {
+		this.display.update(balanceMessage(balance));
 	}
 
-	private String balance() {
-		return format(BALANCE, this.balance.currentBalance());
+	private String balanceMessage(final double balance) {
+		return balanceIsEmpty(balance) ? NO_BALANCE : format(BALANCE, balance);
+	}
+
+	private boolean balanceIsEmpty(final double balance) {
+		return balance == 0.0;
 	}
 }
