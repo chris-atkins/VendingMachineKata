@@ -11,5 +11,4 @@ public class UserBank {
 	public double currentBalance() {
 		return this.currentAmount;
 	}
-
 }

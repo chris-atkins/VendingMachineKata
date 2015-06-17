@@ -1,5 +1,6 @@
 package chris.atkins.vendingmachine;
 
+import static chris.atkins.vendingmachine.money.Coin.DIME;
 import static chris.atkins.vendingmachine.money.Coin.QUARTER;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -63,7 +64,7 @@ public class VendingMachineControllerTest {
 	@RunWith(JUnit4.class)
 	public static class VendingMachineCoinInsertedTest {
 
-		private VendingMachineController vendingMachine = new VendingMachineController(null, null);
+		private final VendingMachineController vendingMachine = new VendingMachineController(null, null);
 
 		@Test
 		public void quarterInserted() throws Exception {
@@ -71,11 +72,11 @@ public class VendingMachineControllerTest {
 			assertThat(this.vendingMachine.userBank.currentBalance(), equalTo(0.25));
 		}
 
-		// @Test
-		// public void dimeInserted() throws Exception {
-		// this.vendingMachine.insertCoin(DIME.sizeInMM(), DIME.weightInMg());
-		// assertThat(this.vendingMachine.userBank.currentBalance(), equalTo(0.1));
-		// }
+		@Test
+		public void dimeInserted() throws Exception {
+			this.vendingMachine.insertCoin(DIME.sizeInMM(), DIME.weightInMg());
+			assertThat(this.vendingMachine.userBank.currentBalance(), equalTo(0.1));
+		}
 	}
 
 }
