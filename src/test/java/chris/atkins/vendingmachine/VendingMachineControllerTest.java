@@ -103,6 +103,7 @@ public class VendingMachineControllerTest {
 
 		@Test
 		public void displaysPriceOfColaIfColaIsSelectedWithNotEnoughMoney() throws Exception {
+			this.vendingMachine.userBalance.reset();
 			this.vendingMachine.colaSelected();
 			verify(this.display).update("PRICE $1.00");
 		}
