@@ -6,6 +6,7 @@ import static chris.atkins.vendingmachine.items.Item.COLA;
 import chris.atkins.vendingmachine.display.Display;
 import chris.atkins.vendingmachine.display.DisplayManager;
 import chris.atkins.vendingmachine.items.Item;
+import chris.atkins.vendingmachine.items.ProductDispensor;
 import chris.atkins.vendingmachine.items.ProductInventory;
 import chris.atkins.vendingmachine.money.Coin;
 import chris.atkins.vendingmachine.money.CoinBank;
