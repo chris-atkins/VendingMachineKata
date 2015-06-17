@@ -60,6 +60,13 @@ public class VendingMachineControllerTest {
 			this.vendingMachine.colaSelected();
 			verify(this.display).update("PRICE $1.00");
 		}
+
+		@Test
+		public void userPaysForColaFromUserBank() throws Exception {
+			this.vendingMachine.userBank.add(1.00);
+			this.vendingMachine.colaSelected();
+			assertThat(this.vendingMachine.userBank.currentBalance(), equalTo(0.0));
+		}
 	}
 
 	@RunWith(JUnit4.class)

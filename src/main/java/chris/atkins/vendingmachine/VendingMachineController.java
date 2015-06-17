@@ -28,6 +28,7 @@ public class VendingMachineController {
 		}
 
 		this.productDispensor.dispenseItem(COLA);
+		this.userBank.pay(1.0);
 		this.display.update("THANK YOU");
 	}
 
