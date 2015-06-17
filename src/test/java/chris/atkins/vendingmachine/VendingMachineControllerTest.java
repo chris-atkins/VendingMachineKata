@@ -12,6 +12,7 @@ import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
@@ -20,15 +21,63 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import chris.atkins.vendingmachine.display.Display;
+import chris.atkins.vendingmachine.display.DisplayManager;
 import chris.atkins.vendingmachine.items.Item;
 import chris.atkins.vendingmachine.items.ItemDispensor;
+import chris.atkins.vendingmachine.items.ItemManager;
 import chris.atkins.vendingmachine.money.Coin;
+import chris.atkins.vendingmachine.money.CoinManager;
 import chris.atkins.vendingmachine.money.CoinReturn;
 import chris.atkins.vendingmachine.money.InsertedCoin;
+import chris.atkins.vendingmachine.testutils.InjectionHelper;
 
 
 @RunWith(Enclosed.class)
 public class VendingMachineControllerTest {
+
+	@RunWith(MockitoJUnitRunner.class)
+	public static class VendingMachineUnitTests {
+
+		@InjectMocks
+		private VendingMachineController vendingMachine;
+
+		@Mock
+		private DisplayManager displayManager;
+
+		@Mock
+		private ItemManager inventory;
+
+		@Mock
+		private CoinManager moneyHandler;
+
+		@Mock
+		private Display display;
+
+		@Before
+		public void init() throws Exception {
+			injectMockDisplayManager();
+			injectMockItemManager();
+			injectMockCoinManager();
+		}
+
+		@Test
+		public void whenDisplayBalanceIsCalledItDelegatesToTheDisplayManagerWithInformationFromTheCoinManager() throws Exception {
+
+		}
+
+		private void injectMockDisplayManager() throws Exception {
+			InjectionHelper.injectIntoClassWithObjectForFieldName(this.vendingMachine, this.displayManager, "display");
+		}
+
+		private void injectMockItemManager() throws Exception {
+			InjectionHelper.injectIntoClassWithObjectForFieldName(this.vendingMachine, this.inventory, "inventory");
+		}
+
+		private void injectMockCoinManager() throws Exception {
+			InjectionHelper.injectIntoClassWithObjectForFieldName(this.vendingMachine, this.moneyHandler, "moneyHandler");
+		}
+
+	}
 
 	@RunWith(MockitoJUnitRunner.class)
 	public static class VendingMachineInitializationTest {

@@ -4,14 +4,13 @@ import static chris.atkins.vendingmachine.money.Coin.DIME;
 import static chris.atkins.vendingmachine.money.Coin.INVALID_COIN;
 import static chris.atkins.vendingmachine.money.Coin.NICKEL;
 import static chris.atkins.vendingmachine.money.Coin.QUARTER;
+import static chris.atkins.vendingmachine.testutils.InjectionHelper.injectIntoClassWithObjectForFieldName;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
-
-import java.lang.reflect.Field;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -184,11 +183,5 @@ public class CoinManagerTest {
 
 	private void injectMockCoinIdentifier() throws Exception {
 		injectIntoClassWithObjectForFieldName(this.coinManager, this.coinIdentifier, "coinIdentifier");
-	}
-
-	private void injectIntoClassWithObjectForFieldName(final Object target, final Object value, final String fieldName) throws Exception {
-		final Field field = target.getClass().getDeclaredField(fieldName);
-		field.setAccessible(true);
-		field.set(target, value);
 	}
 }
