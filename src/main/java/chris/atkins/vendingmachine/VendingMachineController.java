@@ -18,7 +18,7 @@ public class VendingMachineController {
 	}
 
 	public void colaSelected() {
-		if (this.userBank.currentAmount() < 1.00) {
+		if (this.userBank.currentBalance() < 1.00) {
 			this.display.update("PRICE $1.00");
 			return;
 		}

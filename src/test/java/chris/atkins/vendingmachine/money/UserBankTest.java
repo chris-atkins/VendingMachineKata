@@ -15,12 +15,20 @@ public class UserBankTest {
 
 	@Test
 	public void startsWithZeroBalance() throws Exception {
-		assertThat(this.bank.currentAmount(), equalTo(0.0));
+		assertThat(this.bank.currentBalance(), equalTo(0.0));
 	}
 
 	@Test
 	public void whenAmountIsAddedTheCurrentBalanceEqualsTheAmountAdded() throws Exception {
 		this.bank.add(0.42);
-		assertThat(this.bank.currentAmount(), equalTo(0.42));
+		assertThat(this.bank.currentBalance(), equalTo(0.42));
+	}
+
+	@Test
+	public void whenMultipleAmountsAreAddedTheTotalIsTheSumOfThem() throws Exception {
+		this.bank.add(0.42);
+		this.bank.add(1.00);
+		this.bank.add(0.58);
+		assertThat(this.bank.currentBalance(), equalTo(2.0));
 	}
 }

@@ -8,7 +8,7 @@ public class UserBank {
 		this.currentAmount += amount;
 	}
 
-	public double currentAmount() {
+	public double currentBalance() {
 		return this.currentAmount;
 	}
 
