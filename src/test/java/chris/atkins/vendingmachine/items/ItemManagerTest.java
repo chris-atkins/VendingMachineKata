@@ -9,11 +9,11 @@ import static chris.atkins.vendingmachine.items.Item.COLA;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.verify;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 
@@ -55,8 +55,6 @@ public class ItemManagerTest {
 	public void dispenseDecrementsSingleItem() throws Exception {
 		final ItemManager inventory = new ItemManager(this.dispensor, 1, 2, 3);
 		inventory.dispenseItem(CHIPS);
-		assertThat(inventory.numberOf(COLA), equalTo(1));
-		assertThat(inventory.numberOf(CANDY), equalTo(2));
 		assertThat(inventory.numberOf(CHIPS), equalTo(2));
 	}
 
@@ -64,7 +62,7 @@ public class ItemManagerTest {
 	public void dispensorIsCalledOnDispense() throws Exception {
 		final ItemManager inventory = new ItemManager(this.dispensor, 1, 2, 3);
 		inventory.dispenseItem(CANDY);
-		Mockito.verify(this.dispensor).dispenseItem(CANDY);
+		verify(this.dispensor).dispenseItem(CANDY);
 	}
 
 	@Test
@@ -72,7 +70,5 @@ public class ItemManagerTest {
 		final ItemManager inventory = new ItemManager(this.dispensor, 1, 2, 3);
 		inventory.setInventory(COLA, 5);
 		assertThat(inventory.numberOf(COLA), equalTo(5));
-		assertThat(inventory.numberOf(CANDY), equalTo(2));
-		assertThat(inventory.numberOf(CHIPS), equalTo(3));
 	}
 }

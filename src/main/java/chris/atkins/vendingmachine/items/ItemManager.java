@@ -19,9 +19,9 @@ public class ItemManager {
 
 	public ItemManager(final ItemDispensor itemDispensor, final int numberOfColas, final int numberOfCandies, final int numberOfChips) {
 		this.itemDispensor = itemDispensor;
-		this.inventory.put(Item.COLA, numberOfColas);
-		this.inventory.put(Item.CANDY, numberOfCandies);
-		this.inventory.put(Item.CHIPS, numberOfChips);
+		setInventory(Item.COLA, numberOfColas);
+		setInventory(Item.CANDY, numberOfCandies);
+		setInventory(Item.CHIPS, numberOfChips);
 	}
 
 	public boolean isOutOfStockFor(final Item item) {
@@ -29,11 +29,11 @@ public class ItemManager {
 	}
 
 	public void dispenseItem(final Item item) {
-		this.inventory.put(item, this.inventory.get(item) - 1);
+		setInventory(item, numberOf(item) - 1);
 		this.itemDispensor.dispenseItem(item);
 	}
 
-	public int numberOf(final Item item) {
+	int numberOf(final Item item) {
 		return this.inventory.get(item);
 	}
 
