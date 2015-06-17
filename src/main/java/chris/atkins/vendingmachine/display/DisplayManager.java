@@ -36,7 +36,7 @@ public class DisplayManager {
 	}
 
 	private boolean hasZeroBalance() {
-		return this.userBalance.currentBalance() == 0.0;
+		return this.userBalance.isEmpty();
 	}
 
 	private String balance() {

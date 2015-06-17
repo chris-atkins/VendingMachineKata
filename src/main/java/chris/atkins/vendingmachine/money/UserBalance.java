@@ -24,4 +24,8 @@ public class UserBalance {
 	public void reset() {
 		this.currentAmount = 0.0;
 	}
+
+	public boolean isEmpty() {
+		return this.currentBalance() == 0.0;
+	}
 }

@@ -2,6 +2,7 @@ package chris.atkins.vendingmachine.money;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -57,5 +58,17 @@ public class UserBalanceTest {
 		this.balance.add(12.42);
 		this.balance.reset();
 		assertThat(this.balance.currentBalance(), equalTo(0.0));
+	}
+
+	@Test
+	public void reportsIsEmptyTrueCorrectly() throws Exception {
+		this.balance.reset();
+		assertThat(this.balance.isEmpty(), is(true));
+	}
+
+	@Test
+	public void reportsIsEmptyFalseCorrectly() throws Exception {
+		this.balance.add(.01);
+		assertThat(this.balance.isEmpty(), is(false));
 	}
 }
