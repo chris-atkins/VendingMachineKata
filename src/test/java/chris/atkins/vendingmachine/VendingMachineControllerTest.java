@@ -6,11 +6,15 @@ import static chris.atkins.vendingmachine.items.Item.COLA;
 import static chris.atkins.vendingmachine.money.Coin.DIME;
 import static chris.atkins.vendingmachine.money.Coin.NICKEL;
 import static chris.atkins.vendingmachine.money.Coin.QUARTER;
+import static org.apache.commons.lang.math.RandomUtils.nextBoolean;
+import static org.apache.commons.lang.math.RandomUtils.nextDouble;
+import static org.apache.commons.lang.math.RandomUtils.nextInt;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,50 +38,6 @@ import chris.atkins.vendingmachine.testutils.InjectionHelper;
 
 @RunWith(Enclosed.class)
 public class VendingMachineControllerTest {
-
-	@RunWith(MockitoJUnitRunner.class)
-	public static class VendingMachineUnitTests {
-
-		@InjectMocks
-		private VendingMachineController vendingMachine;
-
-		@Mock
-		private DisplayManager displayManager;
-
-		@Mock
-		private ItemManager inventory;
-
-		@Mock
-		private CoinManager moneyHandler;
-
-		@Mock
-		private Display display;
-
-		@Before
-		public void init() throws Exception {
-			injectMockDisplayManager();
-			injectMockItemManager();
-			injectMockCoinManager();
-		}
-
-		@Test
-		public void whenDisplayBalanceIsCalledItDelegatesToTheDisplayManagerWithInformationFromTheCoinManager() throws Exception {
-
-		}
-
-		private void injectMockDisplayManager() throws Exception {
-			InjectionHelper.injectIntoClassWithObjectForFieldName(this.vendingMachine, this.displayManager, "display");
-		}
-
-		private void injectMockItemManager() throws Exception {
-			InjectionHelper.injectIntoClassWithObjectForFieldName(this.vendingMachine, this.inventory, "inventory");
-		}
-
-		private void injectMockCoinManager() throws Exception {
-			InjectionHelper.injectIntoClassWithObjectForFieldName(this.vendingMachine, this.moneyHandler, "moneyHandler");
-		}
-
-	}
 
 	@RunWith(MockitoJUnitRunner.class)
 	public static class VendingMachineInitializationTest {
@@ -456,6 +416,75 @@ public class VendingMachineControllerTest {
 			addToUserBalance(this.vendingMachine, 0.4);
 			this.vendingMachine.returnCoinsSelected();
 			verify(this.display, atLeastOnce()).update("EXACT CHANGE ONLY");
+		}
+	}
+
+	@RunWith(MockitoJUnitRunner.class)
+	public static class VendingMachineUnitTests {
+
+		@InjectMocks
+		private VendingMachineController vendingMachine;
+
+		@Mock
+		private DisplayManager displayManager;
+
+		@Mock
+		private ItemManager inventory;
+
+		@Mock
+		private CoinManager moneyHandler;
+
+		@Mock
+		private Display display;
+
+		private final Double balance = nextDouble();
+		private final boolean hasChange = nextBoolean();
+		private final InsertedCoin insertedCoin = new InsertedCoin(nextInt(), nextInt());
+
+		@Before
+		public void init() throws Exception {
+			injectMockDisplayManager();
+			injectMockItemManager();
+			injectMockCoinManager();
+			when(this.moneyHandler.currentUserBalance()).thenReturn(this.balance);
+			when(this.moneyHandler.canMakeChange()).thenReturn(this.hasChange);
+		}
+
+		@Test
+		public void whenDisplayBalanceIsCalledItDelegatesToTheDisplayManagerWithInformationFromTheCoinManager() throws Exception {
+			this.vendingMachine.displayBalance();
+			verify(this.displayManager).updateBalanceStatus(this.balance, this.hasChange);
+		}
+
+		@Test
+		public void coinInsertedDelegatesToTheCoinManagerAndDisplaysTheBalance() throws Exception {
+			this.vendingMachine.coinInserted(this.insertedCoin);
+			verify(this.moneyHandler).coinInserted(this.insertedCoin);
+			verify(this.displayManager).updateBalanceStatus(this.balance, this.hasChange);
+		}
+
+		@Test
+		public void returnCoinsDelegatesToTheCoinManagerAndDisplaysTheBalance() throws Exception {
+			this.vendingMachine.returnCoinsSelected();
+			verify(this.moneyHandler).returnCoins();
+			verify(this.displayManager).updateBalanceStatus(this.balance, this.hasChange);
+		}
+
+		@Test
+		public void selectCandyWhenOutOfStock() throws Exception {
+
+		}
+
+		private void injectMockDisplayManager() throws Exception {
+			InjectionHelper.injectIntoClassWithObjectForFieldName(this.vendingMachine, this.displayManager, "display");
+		}
+
+		private void injectMockItemManager() throws Exception {
+			InjectionHelper.injectIntoClassWithObjectForFieldName(this.vendingMachine, this.inventory, "inventory");
+		}
+
+		private void injectMockCoinManager() throws Exception {
+			InjectionHelper.injectIntoClassWithObjectForFieldName(this.vendingMachine, this.moneyHandler, "moneyHandler");
 		}
 	}
 

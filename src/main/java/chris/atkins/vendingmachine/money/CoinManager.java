@@ -46,7 +46,7 @@ public class CoinManager {
 		return currentUserBalance() < item.price();
 	}
 
-	public boolean hasChangeForAQuarter() {
+	public boolean canMakeChange() {
 		return this.coinBank.numberOf(Coin.NICKEL) >= 1 && this.coinBank.numberOf(Coin.DIME) >= 2;
 	}
 

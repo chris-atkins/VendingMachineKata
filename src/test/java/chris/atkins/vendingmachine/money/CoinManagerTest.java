@@ -139,19 +139,19 @@ public class CoinManagerTest {
 	@Test
 	public void hasChangeForAQuarterIsTrueOnlyWithAtLeast2DimesAnd1Nickel() throws Exception {
 		setZeroCoinsInCoinBank();
-		assertThat(this.coinManager.hasChangeForAQuarter(), is(false));
+		assertThat(this.coinManager.canMakeChange(), is(false));
 
 		this.coinManager.coinInserted(this.quarterCoin);
-		assertThat(this.coinManager.hasChangeForAQuarter(), is(false));
+		assertThat(this.coinManager.canMakeChange(), is(false));
 
 		this.coinManager.coinInserted(this.dimeCoin);
-		assertThat(this.coinManager.hasChangeForAQuarter(), is(false));
+		assertThat(this.coinManager.canMakeChange(), is(false));
 
 		this.coinManager.coinInserted(this.nickelCoin);
-		assertThat(this.coinManager.hasChangeForAQuarter(), is(false));
+		assertThat(this.coinManager.canMakeChange(), is(false));
 
 		this.coinManager.coinInserted(this.dimeCoin);
-		assertThat(this.coinManager.hasChangeForAQuarter(), is(true));
+		assertThat(this.coinManager.canMakeChange(), is(true));
 
 	}
 

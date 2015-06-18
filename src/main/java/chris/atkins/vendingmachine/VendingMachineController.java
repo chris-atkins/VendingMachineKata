@@ -68,6 +68,6 @@ public final class VendingMachineController {
 	}
 
 	public void displayBalance() {
-		this.display.updateBalanceStatus(this.moneyHandler.currentUserBalance(), this.moneyHandler.hasChangeForAQuarter());
+		this.display.updateBalanceStatus(this.moneyHandler.currentUserBalance(), this.moneyHandler.canMakeChange());
 	}
 }
