@@ -4,7 +4,7 @@ import static chris.atkins.vendingmachine.money.Coin.DIME;
 import static chris.atkins.vendingmachine.money.Coin.INVALID_COIN;
 import static chris.atkins.vendingmachine.money.Coin.NICKEL;
 import static chris.atkins.vendingmachine.money.Coin.QUARTER;
-import static chris.atkins.vendingmachine.testutils.InjectionHelper.injectIntoClassWithObjectForFieldName;
+import static chris.atkins.vendingmachine.testutils.TestHelper.injectIntoClassWithObjectForFieldName;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;

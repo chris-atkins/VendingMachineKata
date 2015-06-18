@@ -6,13 +6,12 @@ import static chris.atkins.vendingmachine.items.Item.COLA;
 import static chris.atkins.vendingmachine.money.Coin.DIME;
 import static chris.atkins.vendingmachine.money.Coin.NICKEL;
 import static chris.atkins.vendingmachine.money.Coin.QUARTER;
+import static chris.atkins.vendingmachine.testutils.TestHelper.getFieldValueFromObject;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
-
-import java.lang.reflect.Field;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -321,17 +320,10 @@ public class VendingMachineControllerTest {
 	}
 
 	private CoinManager getMoneyHandler() throws Exception {
-		return this.getFieldValueFromObject(this.vendingMachine, "moneyHandler", CoinManager.class);
-	}
-
-	@SuppressWarnings("unchecked")
-	private <T> T getFieldValueFromObject(final Object object, final String fieldName, final Class<T> expectedClass) throws Exception {
-		final Field field = object.getClass().getDeclaredField(fieldName);
-		field.setAccessible(true);
-		return (T) field.get(object);
+		return getFieldValueFromObject(this.vendingMachine, "moneyHandler", CoinManager.class);
 	}
 
 	private ItemManager getInventory() throws Exception {
-		return this.getFieldValueFromObject(this.vendingMachine, "inventory", ItemManager.class);
+		return getFieldValueFromObject(this.vendingMachine, "inventory", ItemManager.class);
 	}
 }
