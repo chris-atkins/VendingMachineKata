@@ -40,31 +40,24 @@ import chris.atkins.vendingmachine.testutils.InjectionHelper;
 public class VendingMachineControllerTest {
 
 	@RunWith(MockitoJUnitRunner.class)
-	public static class VendingMachineInitializationTest {
+	public static class IntegrationStyleTests {
 
 		@InjectMocks
 		private VendingMachineController vendingMachine;
 
 		@Mock
-		private Display display;
-
-		@Test
-		public void insertCoinDisplayedOnInitialization() throws Exception {
-			verify(this.display).update("INSERT COIN");
-		}
-	}
-
-	@RunWith(MockitoJUnitRunner.class)
-	public static class DisplayPollingTest {
-
-		@InjectMocks
-		private VendingMachineController vendingMachine;
+		private ItemDispensor dispensor;
 
 		@Mock
 		private Display display;
 
 		@Mock
 		CoinReturn coinReturn;
+
+		@Test
+		public void insertCoinDisplayedOnInitialization() throws Exception {
+			verify(this.display).update("INSERT COIN");
+		}
 
 		@Test
 		public void insertCoinsDisplayedWhenNoBalanceExistsWithEnoughChange() throws Exception {
@@ -82,59 +75,43 @@ public class VendingMachineControllerTest {
 
 		@Test
 		public void displaysCorrectTextWhenExactChangeIsRequired() throws Exception {
-			addToUserBalance(this.vendingMachine, 80);
+			addToUserBalance(80);
 			this.vendingMachine.returnCoinsSelected();
 			this.vendingMachine.displayBalance();
 			verify(this.display, atLeastOnce()).update("EXACT CHANGE ONLY");
 		}
-	}
-
-	@RunWith(MockitoJUnitRunner.class)
-	public static class VendingMachineColaSelectedTest {
-
-		@InjectMocks
-		private VendingMachineController vendingMachine;
-
-		@Mock
-		private ItemDispensor dispensor;
-
-		@Mock
-		private Display display;
-
-		@Mock
-		private CoinReturn coinReturn;
 
 		@Test
 		public void whenColaIsSelectedItIsDispensedWithExactChange() throws Exception {
-			addToUserBalance(this.vendingMachine, 1.00);
+			addToUserBalance(1.00);
 			this.vendingMachine.colaSelected();
 			verify(this.dispensor).dispenseItem(Item.COLA);
 		}
 
 		@Test
 		public void whenColaIsDispensedTheDisplayReadsThankYou() throws Exception {
-			addToUserBalance(this.vendingMachine, 1.00);
+			addToUserBalance(1.00);
 			this.vendingMachine.colaSelected();
 			verify(this.display).update("THANK YOU");
 		}
 
 		@Test
 		public void doesNotDispenseColaIfNotEnoughMoneyExists() throws Exception {
-			addToUserBalance(this.vendingMachine, 0.99);
+			addToUserBalance(0.99);
 			this.vendingMachine.colaSelected();
 			verifyZeroInteractions(this.dispensor);
 		}
 
 		@Test
 		public void displaysPriceOfColaIfColaIsSelectedWithNotEnoughMoney() throws Exception {
-			resetUserBalance(this.vendingMachine);
+			resetUserBalance();
 			this.vendingMachine.colaSelected();
 			verify(this.display).update("PRICE $1.00");
 		}
 
 		@Test
 		public void userPaysForColaFromUserBalance() throws Exception {
-			addToUserBalance(this.vendingMachine, 1.00);
+			addToUserBalance(1.00);
 			this.vendingMachine.colaSelected();
 			assertThat(this.vendingMachine.moneyHandler.currentUserBalance(), equalTo(0.0));
 		}
@@ -142,7 +119,7 @@ public class VendingMachineControllerTest {
 		@Test
 		public void displaysSoldOutIfNoInventoryExists() throws Exception {
 			purchaseAllTheColas();
-			addToUserBalance(this.vendingMachine, 1.00);
+			addToUserBalance(1.00);
 			this.vendingMachine.colaSelected();
 			verify(this.display).update("SOLD OUT");
 		}
@@ -150,7 +127,7 @@ public class VendingMachineControllerTest {
 		@Test
 		public void displaysSoldOutEvenIfUserHasNotEnteredMoney() throws Exception {
 			purchaseAllTheColas();
-			resetUserBalance(this.vendingMachine);
+			resetUserBalance();
 			this.vendingMachine.colaSelected();
 			verify(this.display).update("SOLD OUT");
 		}
@@ -158,7 +135,7 @@ public class VendingMachineControllerTest {
 		@Test
 		public void noItemIsDispensedIfSoldOut() throws Exception {
 			purchaseAllTheColas();
-			addToUserBalance(this.vendingMachine, 1.00);
+			addToUserBalance(1.00);
 			this.vendingMachine.colaSelected();
 			verifyZeroInteractions(this.dispensor);
 		}
@@ -166,129 +143,80 @@ public class VendingMachineControllerTest {
 		@Test
 		public void sameBalanceIfSoldOut() throws Exception {
 			purchaseAllTheColas();
-			addToUserBalance(this.vendingMachine, 1.10);
+			addToUserBalance(1.10);
 			this.vendingMachine.colaSelected();
 			assertThat(this.vendingMachine.moneyHandler.currentUserBalance(), equalTo(1.1));
 		}
 
-		private void purchaseAllTheColas() {
-			this.vendingMachine.inventory.setInventory(COLA, 0);
-		}
-	}
-
-	@RunWith(MockitoJUnitRunner.class)
-	public static class VendingMachineCandySelectedTest {
-
-		@InjectMocks
-		private VendingMachineController vendingMachine;
-
-		@Mock
-		private ItemDispensor dispensor;
-
-		@Mock
-		private Display display;
-
-		@Mock
-		private CoinReturn coinReturn;
-
 		@Test
 		public void whenCandyIsSelectedItIsDispensedWithExactChange() throws Exception {
-			addToUserBalance(this.vendingMachine, 0.65);
+			addToUserBalance(0.65);
 			this.vendingMachine.candySelected();
 			verify(this.dispensor).dispenseItem(CANDY);
 		}
 
 		@Test
 		public void whenCandyIsDispensedTheDisplayReadsThankYou() throws Exception {
-			addToUserBalance(this.vendingMachine, 0.65);
+			addToUserBalance(0.65);
 			this.vendingMachine.candySelected();
 			verify(this.display).update("THANK YOU");
 		}
 
 		@Test
 		public void doesNotDispenseCandyIfNotEnoughMoneyExists() throws Exception {
-			addToUserBalance(this.vendingMachine, 0.64);
+			addToUserBalance(0.64);
 			this.vendingMachine.candySelected();
 			verifyZeroInteractions(this.dispensor);
 		}
 
 		@Test
 		public void displaysPriceOfCandyIfCandyIsSelectedWithNotEnoughMoney() throws Exception {
-			resetUserBalance(this.vendingMachine);
+			resetUserBalance();
 			this.vendingMachine.candySelected();
 			verify(this.display).update("PRICE $0.65");
 		}
 
 		@Test
 		public void userPaysForCandyFromUserBalance() throws Exception {
-			addToUserBalance(this.vendingMachine, 0.65);
+			addToUserBalance(0.65);
 			this.vendingMachine.candySelected();
 			assertThat(this.vendingMachine.moneyHandler.currentUserBalance(), equalTo(0.0));
 		}
-	}
-
-	@RunWith(MockitoJUnitRunner.class)
-	public static class VendingMachineChipsSelectedTest {
-
-		@InjectMocks
-		private VendingMachineController vendingMachine;
-
-		@Mock
-		private ItemDispensor dispensor;
-
-		@Mock
-		private Display display;
-
-		@Mock
-		private CoinReturn coinReturn;
 
 		@Test
 		public void whenChipsIsSelectedItIsDispensedWithExactChange() throws Exception {
-			addToUserBalance(this.vendingMachine, 0.5);
+			addToUserBalance(0.5);
 			this.vendingMachine.chipsSelected();
 			verify(this.dispensor).dispenseItem(CHIPS);
 		}
 
 		@Test
 		public void whenChipsIsDispensedTheDisplayReadsThankYou() throws Exception {
-			addToUserBalance(this.vendingMachine, 0.5);
+			addToUserBalance(0.5);
 			this.vendingMachine.chipsSelected();
 			verify(this.display).update("THANK YOU");
 		}
 
 		@Test
 		public void doesNotDispenseChipsIfNotEnoughMoneyExists() throws Exception {
-			addToUserBalance(this.vendingMachine, 0.49);
+			addToUserBalance(0.49);
 			this.vendingMachine.chipsSelected();
 			verifyZeroInteractions(this.dispensor);
 		}
 
 		@Test
 		public void displaysPriceOfChipsIfChipsIsSelectedWithNotEnoughMoney() throws Exception {
-			resetUserBalance(this.vendingMachine);
+			resetUserBalance();
 			this.vendingMachine.chipsSelected();
 			verify(this.display).update("PRICE $0.50");
 		}
 
 		@Test
 		public void userPaysForChipsFromUserBalance() throws Exception {
-			addToUserBalance(this.vendingMachine, 0.50);
+			addToUserBalance(0.50);
 			this.vendingMachine.chipsSelected();
 			assertThat(this.vendingMachine.moneyHandler.currentUserBalance(), equalTo(0.0));
 		}
-	}
-
-	@RunWith(MockitoJUnitRunner.class)
-	public static class VendingMachineCoinInsertedTest {
-
-		@InjectMocks
-		private VendingMachineController vendingMachine;
-
-		@Mock
-		private Display display;
-
-		@Mock
-		private CoinReturn coinReturn;
 
 		@Test
 		public void quarterInserted() throws Exception {
@@ -309,7 +237,7 @@ public class VendingMachineControllerTest {
 		}
 
 		@Test
-		public void displayUpdatedToShowBalance() throws Exception {
+		public void onCoinInsertDisplayIsUpdatedToShowBalance() throws Exception {
 			addCoin(QUARTER);
 			verify(this.display).update("BALANCE $0.25");
 		}
@@ -332,50 +260,30 @@ public class VendingMachineControllerTest {
 			verify(this.coinReturn).returnCoin(penny);
 		}
 
-		private void addCoin(final Coin coin) {
-			this.vendingMachine.coinInserted(new InsertedCoin(coin.sizeInMM(), coin.weightInMg()));
-		}
-	}
-
-	@RunWith(MockitoJUnitRunner.class)
-	public static class ChangeReturnedTest {
-
-		@InjectMocks
-		private VendingMachineController vendingMachine;
-
-		@Mock
-		private ItemDispensor dispensor;
-
-		@Mock
-		private CoinReturn coinReturn;
-
-		@Mock
-		private Display display;
-
 		@Test
 		public void returnsNickelAsChange() throws Exception {
-			addToUserBalance(this.vendingMachine, 1.05);
+			addToUserBalance(1.05);
 			this.vendingMachine.colaSelected();
 			verify(this.coinReturn).returnCoin(NICKEL);
 		}
 
 		@Test
 		public void returnsDimeAsChange() throws Exception {
-			addToUserBalance(this.vendingMachine, 1.10);
+			addToUserBalance(1.10);
 			this.vendingMachine.colaSelected();
 			verify(this.coinReturn).returnCoin(DIME);
 		}
 
 		@Test
 		public void returnsQuarterAsChange() throws Exception {
-			addToUserBalance(this.vendingMachine, 1.25);
+			addToUserBalance(1.25);
 			this.vendingMachine.colaSelected();
 			verify(this.coinReturn).returnCoin(QUARTER);
 		}
 
 		@Test
 		public void returnsMultipleCoinsAsChange() throws Exception {
-			addToUserBalance(this.vendingMachine, 1.40);
+			addToUserBalance(1.40);
 			this.vendingMachine.colaSelected();
 			verify(this.coinReturn).returnCoin(QUARTER);
 			verify(this.coinReturn).returnCoin(DIME);
@@ -384,27 +292,14 @@ public class VendingMachineControllerTest {
 
 		@Test
 		public void userBalanceIsZeroAfterChangeIsGiven() throws Exception {
-			addToUserBalance(this.vendingMachine, 1.40);
+			addToUserBalance(1.40);
 			this.vendingMachine.colaSelected();
 			assertThat(this.vendingMachine.moneyHandler.currentUserBalance(), equalTo(0.0));
 		}
-	}
-
-	@RunWith(MockitoJUnitRunner.class)
-	public static class BalanceReturnRequestedTest {
-
-		@InjectMocks
-		private VendingMachineController vendingMachine;
-
-		@Mock
-		private CoinReturn coinReturn;
-
-		@Mock
-		private Display display;
 
 		@Test
 		public void returnsAllBalanceWhenRequested() throws Exception {
-			addToUserBalance(this.vendingMachine, 0.4);
+			addToUserBalance(0.4);
 			this.vendingMachine.returnCoinsSelected();
 			verify(this.coinReturn).returnCoin(QUARTER);
 			verify(this.coinReturn).returnCoin(DIME);
@@ -413,9 +308,25 @@ public class VendingMachineControllerTest {
 
 		@Test
 		public void returnCoinsDisplaysStatusMessageWhenFinished() throws Exception {
-			addToUserBalance(this.vendingMachine, 0.4);
+			addToUserBalance(0.4);
 			this.vendingMachine.returnCoinsSelected();
 			verify(this.display, atLeastOnce()).update("EXACT CHANGE ONLY");
+		}
+
+		private void purchaseAllTheColas() {
+			this.vendingMachine.inventory.setInventory(COLA, 0);
+		}
+
+		private void addCoin(final Coin coin) {
+			this.vendingMachine.coinInserted(new InsertedCoin(coin.sizeInMM(), coin.weightInMg()));
+		}
+
+		private void addToUserBalance(final double amount) {
+			this.vendingMachine.moneyHandler.addToUserBalance(amount);
+		}
+
+		private void resetUserBalance() {
+			this.vendingMachine.moneyHandler.resetUserBalance();
 		}
 	}
 
@@ -488,11 +399,4 @@ public class VendingMachineControllerTest {
 		}
 	}
 
-	private static void addToUserBalance(final VendingMachineController vendingMachine, final double amount) {
-		vendingMachine.moneyHandler.addToUserBalance(amount);
-	}
-
-	private static void resetUserBalance(final VendingMachineController vendingMachine) {
-		vendingMachine.moneyHandler.resetUserBalance();
-	}
 }
