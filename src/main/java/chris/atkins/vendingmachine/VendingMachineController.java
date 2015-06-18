@@ -16,8 +16,8 @@ import chris.atkins.vendingmachine.money.InsertedCoin;
 public final class VendingMachineController {
 
 	private final DisplayManager display;
-	final ItemManager inventory;
-	final CoinManager moneyHandler;
+	private final ItemManager inventory;
+	private final CoinManager moneyHandler;
 
 	public VendingMachineController(final ItemDispensor itemDispensor, final Display display, final CoinReturn coinReturn) {
 		this.display = new DisplayManager(display);

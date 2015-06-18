@@ -12,6 +12,8 @@ import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
+import java.lang.reflect.Field;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -21,7 +23,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 import chris.atkins.vendingmachine.display.Display;
 import chris.atkins.vendingmachine.items.Item;
 import chris.atkins.vendingmachine.items.ItemDispensor;
+import chris.atkins.vendingmachine.items.ItemManager;
 import chris.atkins.vendingmachine.money.Coin;
+import chris.atkins.vendingmachine.money.CoinManager;
 import chris.atkins.vendingmachine.money.CoinReturn;
 import chris.atkins.vendingmachine.money.InsertedCoin;
 
@@ -48,14 +52,14 @@ public class VendingMachineControllerTest {
 
 	@Test
 	public void insertCoinsDisplayedWhenNoBalanceExistsWithEnoughChange() throws Exception {
-		this.vendingMachine.moneyHandler.resetUserBalance();
+		getMoneyHandler().resetUserBalance();
 		this.vendingMachine.displayBalance();
 		verify(this.display, atLeastOnce()).update("INSERT COIN");
 	}
 
 	@Test
 	public void balanceDisplayedWhenBalanceExists() throws Exception {
-		this.vendingMachine.moneyHandler.addToUserBalance(1.25);
+		getMoneyHandler().addToUserBalance(1.25);
 		this.vendingMachine.displayBalance();
 		verify(this.display).update("BALANCE $1.25");
 	}
@@ -100,7 +104,7 @@ public class VendingMachineControllerTest {
 	public void userPaysForColaFromUserBalance() throws Exception {
 		addToUserBalance(1.00);
 		this.vendingMachine.colaSelected();
-		assertThat(this.vendingMachine.moneyHandler.currentUserBalance(), equalTo(0.0));
+		assertThat(getMoneyHandler().currentUserBalance(), equalTo(0.0));
 	}
 
 	@Test
@@ -132,7 +136,7 @@ public class VendingMachineControllerTest {
 		purchaseAllTheColas();
 		addToUserBalance(1.10);
 		this.vendingMachine.colaSelected();
-		assertThat(this.vendingMachine.moneyHandler.currentUserBalance(), equalTo(1.1));
+		assertThat(getMoneyHandler().currentUserBalance(), equalTo(1.1));
 	}
 
 	@Test
@@ -167,7 +171,7 @@ public class VendingMachineControllerTest {
 	public void userPaysForCandyFromUserBalance() throws Exception {
 		addToUserBalance(0.65);
 		this.vendingMachine.candySelected();
-		assertThat(this.vendingMachine.moneyHandler.currentUserBalance(), equalTo(0.0));
+		assertThat(getMoneyHandler().currentUserBalance(), equalTo(0.0));
 	}
 
 	@Test
@@ -202,25 +206,25 @@ public class VendingMachineControllerTest {
 	public void userPaysForChipsFromUserBalance() throws Exception {
 		addToUserBalance(0.50);
 		this.vendingMachine.chipsSelected();
-		assertThat(this.vendingMachine.moneyHandler.currentUserBalance(), equalTo(0.0));
+		assertThat(getMoneyHandler().currentUserBalance(), equalTo(0.0));
 	}
 
 	@Test
 	public void quarterInserted() throws Exception {
 		addCoin(QUARTER);
-		assertThat(this.vendingMachine.moneyHandler.currentUserBalance(), equalTo(0.25));
+		assertThat(getMoneyHandler().currentUserBalance(), equalTo(0.25));
 	}
 
 	@Test
 	public void dimeInserted() throws Exception {
 		addCoin(DIME);
-		assertThat(this.vendingMachine.moneyHandler.currentUserBalance(), equalTo(0.1));
+		assertThat(getMoneyHandler().currentUserBalance(), equalTo(0.1));
 	}
 
 	@Test
 	public void nickelInserted() throws Exception {
 		addCoin(NICKEL);
-		assertThat(this.vendingMachine.moneyHandler.currentUserBalance(), equalTo(0.05));
+		assertThat(getMoneyHandler().currentUserBalance(), equalTo(0.05));
 	}
 
 	@Test
@@ -281,7 +285,7 @@ public class VendingMachineControllerTest {
 	public void userBalanceIsZeroAfterChangeIsGiven() throws Exception {
 		addToUserBalance(1.40);
 		this.vendingMachine.colaSelected();
-		assertThat(this.vendingMachine.moneyHandler.currentUserBalance(), equalTo(0.0));
+		assertThat(getMoneyHandler().currentUserBalance(), equalTo(0.0));
 	}
 
 	@Test
@@ -300,19 +304,34 @@ public class VendingMachineControllerTest {
 		verify(this.display, atLeastOnce()).update("EXACT CHANGE ONLY");
 	}
 
-	private void purchaseAllTheColas() {
-		this.vendingMachine.inventory.setInventory(COLA, 0);
+	private void purchaseAllTheColas() throws Exception {
+		getInventory().setInventory(COLA, 0);
 	}
 
 	private void addCoin(final Coin coin) {
 		this.vendingMachine.coinInserted(new InsertedCoin(coin.sizeInMM(), coin.weightInMg()));
 	}
 
-	private void addToUserBalance(final double amount) {
-		this.vendingMachine.moneyHandler.addToUserBalance(amount);
+	private void addToUserBalance(final double amount) throws Exception {
+		getMoneyHandler().addToUserBalance(amount);
 	}
 
-	private void resetUserBalance() {
-		this.vendingMachine.moneyHandler.resetUserBalance();
+	private void resetUserBalance() throws Exception {
+		getMoneyHandler().resetUserBalance();
+	}
+
+	private CoinManager getMoneyHandler() throws Exception {
+		return this.getFieldValueFromObject(this.vendingMachine, "moneyHandler", CoinManager.class);
+	}
+
+	@SuppressWarnings("unchecked")
+	private <T> T getFieldValueFromObject(final Object object, final String fieldName, final Class<T> expectedClass) throws Exception {
+		final Field field = object.getClass().getDeclaredField(fieldName);
+		field.setAccessible(true);
+		return (T) field.get(object);
+	}
+
+	private ItemManager getInventory() throws Exception {
+		return this.getFieldValueFromObject(this.vendingMachine, "inventory", ItemManager.class);
 	}
 }
